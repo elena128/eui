@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<link rel="stylesheet" type="text/css" href="css/eui.css" />
+	</head>
+	<body>
+		<header class="header bg_info">
+	        <div class="arrow_left" onclick="location.href='index.html'"></div>下拉刷新
+	    </header>
+		<section class="refresh_content">
+			<div class="refresh_load"><div class="refresh_pull_arrow"></div></div>
+			<div id="demo"></div>
+	    </section>
+	</body>
+	<script type="text/template" charset="utf-8" id='list_template'>
+		{{ for(var i=0;i<10;i++){ }}
+       	<div class="margin_b_15 bg_white padding_h_15">
+       		<div class="text_title">卡片布局头部区域{{=it+i+1}}</div>
+            <div class="padding_v_10">内容区域，卡片列表布局样式可以实现APP中常见的各类样式</div>
+            <div class="light lineheight_4">底部区域</div>
+       	</div>
+       	{{ } }}
+    </script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/doT.min.js"></script>
+	<script src="js/func.js"></script>
+	<script type="text/javascript">
+		var page = 0;
+		var evalList = doT.template(document.querySelector("#list_template").innerHTML);
+		$("#demo").html(evalList(page*10));
+		var pullRefresh = new mobileRefresh({
+			container: document.querySelector('.refresh_content'),
+			triggerDistance: 100
+		},function(){
+			setTimeout(function(){
+				page++;
+				$("#demo").prepend(evalList(page*10));
+				pullRefresh.cancelLoading();
+			},1500)
+		})
+	</script>
+</html>

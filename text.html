@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,aItemress=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="css/eui.css" />
+</head>
+<body>
+    <header class="header bg_info">
+        <div class="arrow_left" onclick="location.href='index.html'"></div>文本、label
+    </header>
+    <section class="padding_15">
+        <p>标签</p>
+        <div class="label bg_grey margin_b_10">标签</div>
+        <div class="label bg_info margin_b_10">标签</div>
+        <div class="label bg_primary margin_b_10">标签</div>
+        <div class="label bg_danger margin_b_10">标签</div>
+        <div class="label bg_success margin_b_10">标签</div>
+        <div class="label bg_warning margin_b_10">标签</div>
+        <div class="label border_grey margin_b_10"><i class="aui-iconfont aui-icon-my"></i> 线条样式的标签</div>
+        <div class="label label_danger margin_b_10">标签</div>
+    </section>
+    <section class="padding_h_15">
+        <div class="relative block_inline" style="width:60px;">角标<div class="badge">8</div></div>
+    </section>
+    <section class="padding_15">
+        <div class="relative block_inline" style="width:40px;">红点<div class="dot"></div></div>
+    </section>
+    <div class="tips margin_b_10" id="tips-1">
+        <i class="icon icon_info"></i>
+        <div class="tips_title">消息提示条消息提示条消息提示</div>
+        <i class="icon icon_close" onclick="closeTips()"></i>
+    </div>
+    <div class="tips">
+        <i class="icon icon_info"></i>
+        <div class="tips_title text_ellipsis">消息提示条消息提示条消息提示条消息提示条消息提示条消息提示条消息提示条消息提示条消息提示条消息提示条</div>
+    </div>
+    <script src="js/jquery.min.js" ></script>
+    <script type="text/javascript">
+        function closeTips(){
+            $("#tips-1").remove();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="css/eui.css" />
+</head>
+<body>
+    <header class="header bg_info">
+        <div class="arrow_left" onclick="location.href='index.html'"></div>LIST
+    </header>
+    <div class="list form margin_b_15 bg_white">
+        <div class="list_header">带有输入框</div>
+        <div class="list_item">
+            <div class="width_70">Text</div>
+            <input class="left_70" type="text" placeholder="Name">
+        </div>
+        <div class="list_item">
+            <div class="width_70">Password</div>
+            <input class="left_70" type="password" placeholder="Password">
+        </div>
+        <div class="list_item">
+            <div class="width_70">Number</div>
+            <input class="left_70" type="number" placeholder="Number">
+        </div>
+        <div class="list_item">
+            <div class="width_70">Radio</div>
+            <div class="flex left_70">
+                <label><input class="radio" type="radio" name="demo1" checked> 选项一</label>
+                <label class="padding_l_10"><input class="radio" type="radio" name="demo1"> 选项二</label>
+            </div>
+        </div>
+        <div class="list_item">
+            <div class="width_70">Select</div>
+            <select class="left_70">
+                <option>Option1</option>
+                <option>Option2</option>
+                <option>Option3</option>
+            </select>
+        </div>
+        <div class="list_item">
+            <div class="width_70">Switch</div>
+            <input class="left_70 switch" type="checkbox" checked>
+        </div>
+        <div class="list_item">
+            <div class="width_70">Range</div>
+            <div class="range left_100 flex">
+                <input type="range" value="30" max="100" min="1" step="1" id="range" />
+            </div>
+            <div class="width_30 light range_value"></div>
+        </div>
+        <div class="list_item">
+            <div class="width_70">Textarea</div>
+            <textarea class="left_70" placeholder="Textarea"></textarea>
+        </div>
+        <div class="text_center padding_10_15">
+            <div class="btn btn_info">提交</div>
+            <div class="btn btn_danger">取消</div>
+        </div>
+    </div>
+    <div class="bg_white margin_b_15 list form">
+        <div class="list_header">带有图标的表单</div>
+        <div class="list_item">
+            <div class="width_30 text_center font_16">
+                <i class="icon icon_mobile"></i>
+            </div>
+            <input class="left_30" type="text" placeholder="username">
+        </div>
+        <div class="list_item">
+            <div class="width_30 text_center font_16">
+                <i class="icon icon_lock"></i>
+            </div>
+            <input class="left_50" type="password" placeholder="password">
+            <div class="width_30 text_center font_16">
+                <i class="icon icon_display"></i>
+            </div>
+        </div>
+    </div>
+    <div class="bg_white margin_b_15 list form">
+        <div class="list_header">带有单选或多选框的列表</div>
+        <div class="list_item">
+            <div class="width_30 flex_center">
+                <input class="radio" type="radio" name="radio" checked>
+            </div>
+            <div class="left_30">
+                <div>这是一个列表项</div>
+                <div class="text_info">这里是内容区域，新版中的列表布局可以很轻松的帮助开发者完成常见列表样式。</div>
+            </div>
+        </div>
+        <div class="list_item">
+            <label><input class="radio" type="radio" name="radio" checked> 这是一个列表项</label>
+        </div>
+        <div class="list_item">
+            <label><input class="radio" disabled type="radio" name="radio"> 这是一个列表项</label>
+        </div>
+        <div class="list_item">
+            <label><input class="radio" type="radio" name="radio"> 这是一个列表项</label>
+        </div>
+        <div class="list_item">
+            <label><input class="radio" type="radio" name="radio2" checked> 选项一</label>
+            <label class="padding_l_10"><input class="radio" type="radio" name="radio2"> 选项二</label>
+        </div>
+        <div class="list_item">
+            <label><input class="checkbox" type="radio" name="checkbox" checked> 这是一个列表项</label>
+        </div>
+        <div class="list_item">
+            <label><input class="checkbox" disabled checked="" type="radio" name="checkbox"> 禁止选择</label>
+        </div>
+        <div class="list_item">
+            <label><input class="checkbox" type="radio" name="checkbox"> 这是一个列表项</label>
+        </div>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+    $(".range input").on("touchmove change mousemove",function(){
+        $(this).closest(".list_item").find(".range_value").html($(this).val())
+    })
+</script>
+</html>

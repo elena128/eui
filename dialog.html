@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="css/eui.css" />
+</head>
+<body>
+    <header class="header bg_info margin_b_10">
+        <div class="arrow_left" onclick="location.href='index.html'"></div>DIALOG
+    </header>
+    <div class="padding_h_15 margin_b_10">
+        <div class="btn_block btn_info" onclick="openDialog('text','确定删除吗？')">基本dialog</div>
+    </div>
+    <div class="padding_h_15 margin_b_10">
+        <div class="btn_block btn_warning" onclick="openDialog('input','value')">带有输入框的dialog</div>
+    </div>
+    <div class="mask all"></div>
+    <div class="dialog">
+        <div class="dialog_body">
+            <div class="dialog_header">弹出提示</div>
+            <div class="dialog_content">内容</div>
+            <input type="text">
+        </div>
+        <div class="dialog_footer">
+            <div class="dialog_btn" onclick="quitdialog()">取消</div>
+            <div class="dialog_btn" onclick="quitdialog()">确定</div>
+        </div>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+    function openDialog(type,content){
+        switch(type){
+            case "text":
+                $(".mask,.dialog").show().find(".dialog_content").show().html(content);
+                break;
+            case "input":
+                $(".mask,.dialog").show().find("input").show().attr("name",content);
+                break;
+        }
+    }
+    function quitdialog(){
+        $(".mask,.dialog,.dialog .dialog_content,.dialog input").hide()
+    }
+</script>
+</html>
