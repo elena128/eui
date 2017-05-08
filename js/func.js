@@ -391,6 +391,39 @@
             return this.getFullYear() === y && this.getMonth() + 1 === m && this.getDate() === d;
         }
 // 图片处理
+    // 图片转化为base64
+        function tobase64(file,callback){
+            var type = file.type;
+            var reader = new FileReader();
+            reader.onload = function(e){
+                var $tempImg = $("<img>");
+                $tempImg.load(function() {
+                    var w = this.naturalWidth;
+                    if(w > 480){
+                        var imgsrc = compressImg(this,type)
+                    }else{
+                        var imgsrc = this.src;
+                    }
+                    callback(imgsrc)
+                });
+                $tempImg.attr("src",e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    // 压缩图片
+        function compressImg(sourceImgObj,type){
+            var drawWidth = sourceImgObj.naturalWidth,
+                drawHeight = sourceImgObj.naturalHeight;
+            var newWidth = 480;
+            var newHeight = 480*drawHeight/drawWidth;
+            var cvs = document.createElement('canvas');
+            var ctx = cvs.getContext("2d");
+            cvs.width = newWidth;
+            cvs.height = newHeight;
+            ctx.drawImage(sourceImgObj, 0, 0, newWidth, newHeight);
+            var newImageData = cvs.toDataURL(type, 0.5);
+            return newImageData;
+        }
     // 本地上传预览图片函数
         function preview(files,ele_preview){
             $.each(files,function(k,v){
@@ -485,60 +518,89 @@
         //     $(this).toggleClass("cur").next().toggle();
         // })
 // 级联操作
-        // var data1 = {
-        //     "idA":{name:"一级A",data:{"idA1":"二级A1","idA2":"二级A2","idA3":"二级A3","idA4":"二级A4"}}
-        // };
-        // var data2 = {
-        //     "idA1":{name:"二级A1",data:{"idA11":"三级A11","idA12":"三级A12","idA13":"三级A13","idA14":"三级A14"}}
-        // };
-        // var evalList = doT.template($("#list_template").text());
-        function level(ops){
-            var data0 = {};
-            for (var i in ops.data1){
-                data0[i] = ops.data1[i].name
-            }
-            var list1 = {val:ops.level1,data:data0};
-            var list2 = {val:ops.level2,data:ops.data1[ops.level1||Object.keys(list1.data)[0]].data};
-            $(ops.ele+"1").html(ops.func(list1));
-            $(ops.ele+"2").html(ops.func(list2));
-            $(ops.ele+"1").change(function(){
-                list2.data = ops.data1[$(this).val()].data;
-                $(ops.ele+"2").html(ops.func(list2));
-                if(ops.data2){
-                    list3.data = ops.data2[Object.keys(list2.data)[0]].data;
-                    $(ops.ele+"3").html(ops.func(list3));
-                }
-            })
-            if(ops.data2){
-                var list3 = {val:ops.level3,data:ops.data2[ops.level2||Object.keys(list2.data)[0]].data};
-                $(ops.ele+"3").html(ops.func(list3));
-                $(ops.ele+"2").change(function(){
-                    list3.data = ops.data2[$(this).val()].data;
-                    $(ops.ele+"3").html(ops.func(list3));
-                })
-            }
+    var data1 = {
+        "idA":{name:"一级A",data:{"idA1":"二级A1","idA2":"二级A2","idA3":"二级A3","idA4":"二级A4"}},
+        "idB":{name:"一级B",data:{"idB1":"二级B1","idB2":"二级B2","idB3":"二级B3","idB4":"二级B4"}},
+        "idC":{name:"一级C",data:{"idC1":"二级C1","idC2":"二级C2","idC3":"二级C3","idC4":"二级C4"}},
+        "idD":{name:"一级D",data:{"idD1":"二级D1","idD2":"二级D2","idD3":"二级D3","idD4":"二级D4"}}
+    };
+    var data2 = {
+        "idA1":{name:"二级A1",data:{"idA11":"三级A11","idA12":"三级A12","idA13":"三级A13","idA14":"三级A14"}},
+        "idA2":{name:"二级A2",data:{"idA21":"三级A21","idA22":"二级A22","idA23":"二级A23","idA24":"二级A24"}},
+        "idA3":{name:"二级A3",data:{"idA31":"三级A31","idA32":"三级A32","idA33":"三级A33","idA34":"三级A34"}},
+        "idA4":{name:"二级A4",data:{"idA41":"三级A41","idA42":"三级A42","idA43":"三级A42","idA44":"三级A42"}},
+        "idB1":{name:"二级B1",data:{"idB11":"三级B11","idB12":"三级B12","idB13":"三级B13","idB14":"三级B14"}},
+        "idB2":{name:"二级B2",data:{"idB21":"三级B21","idB22":"二级B22","idB23":"二级B23","idB24":"二级B24"}},
+        "idB3":{name:"二级B3",data:{"idB31":"三级B31","idB32":"三级B32","idB33":"三级B33","idB34":"三级B34"}},
+        "idB4":{name:"二级B4",data:{"idB41":"三级B41","idB42":"三级B42","idB43":"三级B43","idB44":"三级B44"}},
+        "idC1":{name:"二级C1",data:{"idC11":"三级C11","idC12":"三级C12","idC13":"三级C13","idC14":"三级C14"}},
+        "idC2":{name:"二级C2",data:{"idC21":"三级C21","idC22":"二级C22","idC23":"二级C23","idC24":"二级C24"}},
+        "idC3":{name:"二级C3",data:{"idC31":"三级C31","idC32":"三级C32","idC33":"三级C33","idC34":"三级C34"}},
+        "idC4":{name:"二级C4",data:{"idC41":"三级C41","idC42":"三级C42","idC43":"三级C43","idC44":"三级C44"}},
+        "idD1":{name:"二级D1",data:{"idD11":"三级D11","idD12":"三级D12","idD13":"三级D13","idD14":"三级D14"}},
+        "idD2":{name:"二级D2",data:{"idD21":"三级D21","idD22":"二级D22","idD23":"二级D23","idD24":"二级D24"}},
+        "idD3":{name:"二级D3",data:{"idD31":"三级D31","idD32":"三级D32","idD33":"三级D33","idD34":"三级D34"}},
+        "idD4":{name:"二级D4",data:{"idD41":"三级D41","idD42":"三级D42","idD43":"三级D43","idD44":"三级D44"}}
+    };
+    // <script type="text/template" charset="utf-8" id='list_template'>
+    // {{for (var i in it.data){ }}
+    //     <option value="{{=i}}"{{ if(it.val==i){ }}selected{{ } }}>{{=it.data[i]}}</option>
+    // {{ } }}
+    // </script>
+    function level(ops){
+        var data0 = {};
+        for (var i in ops.data1){
+            data0[i] = ops.data1[i].name
         }
-        // level({ele:".level",data1:data1,level1:"idB",level2:"idB2",func:evalList})
+        var list1 = {val:ops.level1,data:data0};
+        var list2 = {val:ops.level2,data:ops.data1[ops.level1||Object.keys(list1.data)[0]].data};
+        $(ops.ele+"1").html(ops.func(list1));
+        $(ops.ele+"2").html(ops.func(list2));
+        $(ops.ele+"1").change(function(){
+            list2.data = ops.data1[$(this).val()].data;
+            $(ops.ele+"2").html(ops.func(list2));
+            if(ops.data2){
+                list3.data = ops.data2[Object.keys(list2.data)[0]].data;
+                $(ops.ele+"3").html(ops.func(list3));
+            }
+        })
+        if(ops.data2){
+            var list3 = {val:ops.level3,data:ops.data2[ops.level2||Object.keys(list2.data)[0]].data};
+            $(ops.ele+"3").html(ops.func(list3));
+            $(ops.ele+"2").change(function(){
+                list3.data = ops.data2[$(this).val()].data;
+                $(ops.ele+"3").html(ops.func(list3));
+            })
+        }
+    }
+    // var evalList = doT.template($("#list_template").text());
+    // level({ele:".level",data1:data1,level1:"idB",level2:"idB2",func:evalList})
 // 样式相关
     // js获取tranform的数字值
         // var t = $(ele).css("transform");
         //  t = parseInt(t.match (/[-+]*[0-9]+/g));
 // 表单提交
     // form表单的ajax提交
-        // var data = $( "#uploadForm" ).serielize();
-        //var data = new FormData($( "#uploadForm" )[0]); //有文件上传时
-        //formData .append( "", "" );
-        // $.ajax({
-        //     url: '' ,
-        //     type: 'POST',
-        //     data: data,
-        //     dataType:"json",
-        //     // contentType: false,   //有文件上传时
-        //     // processData: false,
-        //     success: function (returndata) {
-        //         alert(returndata);
-        //     }
-        // });
+        // e.preventDefault();
+        //有文件上传时
+            // var data = new FormData($( "#form" )[0]);
+            // formData .append( "", "" );
+            // $.ajax({
+            //     url: '' ,
+            //     type: 'POST',
+            //     data: data,
+            //     dataType:"json",
+            //     // contentType: false,
+            //     // processData: false,
+            //     success: function (returndata) {
+            //         alert(returndata);
+            //     }
+            // });
+        //无文件上传时
+            // var data = $( "#form" ).serialize();
+            // $.post("send_data.php",data,function(){
+
+            // },"json")
     // 增加一组同类input
         function add(ele,obj,no){
             if(!check(ele,no)){
@@ -546,18 +608,14 @@
                 return false;
             }
             $(obj).before($(ele).eq(0).clone());
-            setname(ele);
             var len = $(ele).length;
             $(ele).eq(len-1).find("input").val("");
         }
-        function removeele(ele,obj){
+        function remove(ele,obj){
             var len = $(ele).length;
-            if(len <= 1){
-                alert("至少要填入一项");
-            }else{
+            if(len > 2){
                 $(obj).closest(ele).remove();
             }
-            setname(ele);
         }
         function check(ele,no){
             var i = true;
@@ -565,25 +623,90 @@
                 if(!$(v).find("input").eq(no).val()){
                     i = false;
                     return false;
-                }else{
-                    i = true;
                 }
             })
             return i;
         }
-        function setname(ele){
-            var names = $(ele).parent().data("name")
-            $(ele).each(function(k,v){
-                $(v).find("input").each(function(k1,v1){
-                    $(v1).attr("name",names[k1]+(k+1))
-                })
-            })
+    // 校验函数
+        function checkone(name){
+            var pattern = $(name).data("pattern");
+            var tips = $(name).data("tips");
+            var re = new RegExp(pattern);
+            if(!name.value){
+                alert("请输入"+name.title);
+                name.focus();
+                return false;
+            }else if(pattern && !re.test(name.value)){
+                alert("请输入"+tips);
+                name.focus();
+                return false;
+            }
+            return true;
         }
+        // var i = true;
+        // $.each(this,function(k,v){
+        //     if($(v).attr("request")==""){
+        //         if(!checkone(v)){
+        //             i = false;
+        //             return false;
+        //         }
+        //     }
+        // })
+        // if(i){
+        //     //submit...
+        // }
+    // 将表单元素转化为对象
+        $.fn.serializeObject = function() {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
     // 计算文本域剩余可输入字数
         $("textarea").keyup(function(){
             var counter = $(this).val().length;
             $(".text_left").text(200-counter);
         })
+// 购物车相关计算
+    // 改变数量函数
+        function change_cart(i,type,data){
+            var num = data.data[i].num;
+            if(type){
+                num+=1;
+            }else{
+                num-=1;
+                if(num <= 0){
+                    num = 1;
+                }
+            }
+            data.data[i].num = num;
+            return data;
+        }
+    // 计算总数和总价
+        function cal(data){
+            var num = 0;
+            var total = 0.00;
+            for (var i = 0; i < data.data.length; i++) {
+                if(data.data[i].selected){
+                    var number = data.data[i].num;
+                    var price = data.data[i].price;
+                    num = num+number;
+                    total = total + price*number;
+                }
+            }
+            data.num = num;
+            data.total = total.toFixed(2);
+            return data;
+        }
 // 正则匹配
     // 手机号 ^(0|86|17951)?(13\d|15[0-35-9]|17[678]|18\d|14[57])\d{8}$
     // 数字      ^\d*$
@@ -625,6 +748,10 @@
     // var evalArea = doT.template($("").text());
     // var list={};
     // $("").html(evalArea(list));
+    // 载入模版数据
+        function loaddata(ele,func,data){
+            $(ele).html(func(data));
+        }
 // 上拉刷新
     (function(window) {
         'use strict';

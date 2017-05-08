@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<title>big_image</title>
+	<style>
+		*{margin:0;padding:0;}
+		/*.swipe {overflow: hidden;visibility: hidden;position: relative;}*/
+		.swipe{position: absolute;top: 0;height: 100%;left:0;width:100%;background-color: rgba(0,0,0,.7);}
+		.swipe_e {float:left;width:100vw;position: relative;}
+		.swipe_e img {width:100vw;vertical-align: bottom;}
+		.position {position: absolute;left: 0;width: 100vw;bottom: 10px;text-align: center;}
+		.position li {display: inline-block;width: 6px;height: 6px;border-radius: 10px;background: #c7c7c7;margin: 0 2px;-webkit-transition: all 0.5s;}
+		.position li.on{background: #1abc9c;}
+		.swipe_close{position: absolute;right: 10px;top:10px;width: 30px;line-height: 30px;background: rgba(255,255,255,.4);text-align: center;border-radius: 50%;color: rgba(0,0,0,.5);}
+	</style>
+</head>
+<body>
+	<div class="swipe">
+		<div class='swipe-wrap'>
+			<div class="swipe_e">
+		    	<img src="images/1.jpg"/>
+		    </div>
+		    <div class="swipe_e">
+		    	<img src="images/2.jpg"/>
+		    </div>
+		    <div class="swipe_e">
+		    	<img src="images/style5.jpg"/>
+		    </div>
+		    <div class="swipe_e">
+				<img src="images/style4.jpg"/>
+		    </div>
+		    <div class="swipe_e">
+				<img src="images/style3.jpg"/>
+		    </div>
+		    <div class="swipe_e">
+				<img src="images/style1.jpg"/>
+		    </div>
+		    <div class="swipe_e">
+				<img src="images/style2.jpg"/>
+		    </div>
+	  	</div>
+	  	<ul class="position"></ul>
+	  	<div class="swipe_close">&times;</div>
+	</div>
+	<script src="/resource/js/jquery.min.js"></script>
+	<script src="/resource/components/swipe/swipe.js"></script>
+	<script src="/resource/js/touch.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			swipe();
+			// big_img();
+		}
+		function big_img(){
+			$(window).on('touchmove', function (e) {
+			    e.preventDefault();
+			});
+			var no = 0;
+			var eles = $(".swipe .swipe_e")
+		    var num = eles.length;
+		    adjust(eles);
+			eles.hide().eq(0).show()
+		    touch.on('.swipe', 'swipeleft swiperight', function(ev){
+		        if(ev.type == "swipeleft"){
+		            changePic(no,1);
+		        }else if(ev.type == "swiperight"){
+		            changePic(no,0);
+		        }
+		    });
+		    function changePic(now,go){
+		    	var j = go <= 0 ? now-1 : now+1;
+		    	j = parseInt(j >= num && '0' || j < 0 && num-1 || j);
+		        eles.hide().eq(j).fadeIn("fast");
+		        no = j;
+		        $('.position li').removeClass('on').eq(no).addClass('on');
+		    }
+		}
+		function swipe(){
+			$('.swipe').Swipe({
+				auto: 0,
+			  	callback: function(pos) {
+				    $('.position li').removeClass('on').eq(pos).addClass('on');
+				}
+			}).data('Swipe');
+			var eles = $(".swipe_e");
+			adjust(eles);
+		}
+		function adjust(eles){
+			var t_h = $('.swipe').height();
+			var h = '';
+			$.each(eles,function(k,v){
+				var img_h = $(v).height();
+				var margin_top = (t_h - img_h)/2;
+				$(v).css("margin",margin_top+"px 0");
+				h += '<li></li>';
+			})
+			$(".position").html(h).children().eq(0).addClass("on");
+		}
+	</script>
+</body>
+</html>

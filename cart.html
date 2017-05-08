@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>购物车</title>
+    <link rel="stylesheet" type="text/css" href="css/eui.css" />
+    <style>
+        body{
+            background: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<!-- 购物车有数据 -->
+<div class="content cart"></div>
+<!-- 购物车没数据 -->
+<div class="content hide nullcart">
+    <header class="header bg_info">
+        <div class="back_text" onclick="location.href='index.html'"><div class="arrow_left"></div>购物车</div>
+    </header>
+	<div class="text_center" style="margin-top:60px;">
+        <i class="icon icon_cart" style="font-size:60px;"></i>
+        <p class="">购物车快饿瘪了</p>
+    	<p class="" style="font-size:12px;">主人快去给我找点东西吧</p>
+    </div>
+</div>
+<!-- 购物车模版 -->
+<script type="text/template" charset="utf-8" id='cart_template'>
+	<header class="header bg_info">
+        <div class="back_text" onclick="location.href='index.html'"><div class="arrow_left"></div>购物车(<span class="num">{{=it.num}}</span>)</div>
+		<a class="header_icon btn label_white font_12" onclick="remove(1)">删除</a>
+    	<a class="header_icon btn label_white font_12" style="right:60px" onclick="remove(2)">移至收藏夹</a>
+    </header>
+	<div class="list bg_white">
+		{{for(var i=0;i<it.data.length;i++){ }}
+	    <div class="list_item flex_center">
+	        <label class="width_30" onclick="selected({{=i}})">
+	    		<input class="checkbox" type="checkbox" name="checkbox" {{if(it.data[i].selected){}}checked{{}}}>
+	    	</label>
+	        <div class="width_50">
+	            <img src="{{=it.data[i].img}}">
+	        </div>
+	        <div class="left_100">
+	            <div class="flex margin_b_10">
+	                <div class="left_70">{{=it.data[i].name}}</div>
+	                <div class="width_70">￥ {{=it.data[i].price}}</div>
+	            </div>
+	            <div class="row">
+	            	<div class="pull_right border flex">
+	            		<div class="padding_h_5" onclick="change_num({{=i}},0)">
+		                    <i class="icon icon_minus danger"></i>
+		                </div>
+		                <div class="border_l padding_h_5 text_center" style="width:24px;">{{=it.data[i].num}}</div>
+		                <div class="border_l padding_h_5" onclick="change_num({{=i}},1)">
+		                    <i class="icon icon_plus info"></i>
+		                </div>
+	            	</div>
+	            </div>
+	        </div>
+	    </div>
+	    {{ } }}
+	    <div class="list_item text_right">
+	        共<span class="num">{{=it.num}}</span>件商品 合计：￥<span class="danger">{{=it.total}}</span>
+	    </div>
+	</div>
+	<div class="foot_tab flex_center padding_10_15">
+    	<label class="quanx" onclick="allselected()">
+    		<input class="checkbox" type="checkbox" name="checkbox" {{if(it.allselected){}}checked{{}}}> 全选
+    	</label>
+        <div class="flex_center">
+        	<div class="cart_res padding_r_10">
+        		<p class="text_right">合计：￥<span class="danger">{{=it.total}}</span><br>不含运费</p>
+        	</div>
+    		<div class="btn btn_danger shadow" onclick="settlement()" style="line-height:24px;height:26px;">结 算</div>
+        </div>
+    </div>
+</script>
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/doT.min.js" ></script>
+<script type="text/javascript" src="js/func.js" ></script>
+<script>
+	// 购物车模版
+		var cart = {allselected:1,num:4,total:76.88,data:[{goodsid:0,name:"这是一个商品，名字要长点",img:"image/sunshine.jpg",num:2,price:26.44,selected:1},{goodsid:1,name:"这是一个商品，名字要长点",img:"image/liulangnan.png",num:2,price:12.00,selected:1}]};
+    	var evalcart = doT.template($("#cart_template").text());
+    	loaddata(".cart",evalcart,cal(cart));
+    // 购物车增减
+    	function change_num(i,type){
+    		cart = change_cart(i,type,cart)
+    		loaddata(".cart",evalcart,cal(cart));
+    	}
+	// 单选
+		function selected(i){
+			cart.data[i].selected = !cart.data[i].selected;
+			cart.allselected = 1;
+			for (var j = 0; j < cart.data.length; j++) {
+				if(!cart.data[j].selected){
+					cart.allselected = 0;
+				}
+			}
+			loaddata(".cart",evalcart,cal(cart));
+		}
+	// 全选
+		function allselected(all){
+			cart.allselected = !cart.allselected;
+			for (var i = 0; i < cart.data.length; i++) {
+				cart.data[i].selected = cart.allselected;
+			}
+			loaddata(".cart",evalcart,cal(cart));
+		}
+	// 删除和移至收藏夹
+		function remove(type){
+			var n = [];
+			var len = cart.data.length;
+			for (var i = 0; i < len; i++) {
+				if(cart.data[i].selected){
+					n.push(i);
+				}
+			}
+			for (var j = n.length-1; j >= 0; j--) {
+				cart.data.splice(n[j],1);
+			}
+			if(n.length == 0){
+				alert("请选择")
+			}else if(n.length  == len){
+				$(".nullcart,.cart").toggle()
+			}else{
+				// 1：删除，2：移至收藏夹
+				loaddata(".cart",evalcart,cal(cart));
+			}
+		}
+	// 提交函数
+		function settlement(){
+			var submit_data = {num:0,total:0.00,data:[]}
+			for (var i = 0; i < cart.data.length; i++) {
+				if(cart.data[i].selected){
+					var number = cart.data[i].num;
+					var price = cart.data[i].price;
+					submit_data.num = submit_data.num+number;
+					submit_data.total = submit_data.total + price*number;
+					submit_data.data.push({goodsid:cart.data[i].goodsid,num:cart.data[i].num})
+				}
+			}
+			console.log(submit_data)
+		}
+</script>
+</body>
+</html>

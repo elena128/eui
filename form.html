@@ -6,12 +6,21 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>AUI快速完成布局</title>
     <link rel="stylesheet" type="text/css" href="css/eui.css" />
+    <style>
+        /*图片不需要压缩*/
+        /*.img_one img,.img_one .img_close,.preview.img_one .icon{
+            display: none;
+        }
+        .preview.img_one img,.preview.img_one .img_close,.img_one .icon{
+            display: block;
+        }*/
+    </style>
 </head>
 <body>
     <header class="header bg_info">
         <div class="arrow_left" onclick="location.href='index.html'"></div>LIST
     </header>
-    <div class="list form margin_b_15 bg_white">
+    <form class="list form margin_b_15 bg_white" id="form" enctype="multipart/form-data">
         <div class="list_header">带有输入框</div>
         <div class="list_item">
             <div class="width_70">Text</div>
@@ -28,17 +37,28 @@
         <div class="list_item">
             <div class="width_70">Radio</div>
             <div class="flex left_70">
-                <label><input class="radio" type="radio" name="demo1" checked> 选项一</label>
-                <label class="padding_l_10"><input class="radio" type="radio" name="demo1"> 选项二</label>
+                <label><input class="radio" type="radio" name="demo1" value="1" checked> 选项一</label>
+                <label class="padding_l_10"><input class="radio" type="radio" value="2" name="demo1"> 选项二</label>
             </div>
         </div>
         <div class="list_item">
             <div class="width_70">Select</div>
-            <select class="left_70">
-                <option>Option1</option>
-                <option>Option2</option>
-                <option>Option3</option>
-            </select>
+            <div class="left_70 row">
+                <select class="col_4 pull_left level1"></select>
+                <select class="col_4 pull_left level2"></select>
+                <select class="col_4 pull_left level3"></select>
+            </div>
+        </div>
+        <div class="list_item">
+            <div class="width_70">Email</div>
+            <input class="left_70" id="email" type="email" placeholder="Email" list="emailList">
+            <datalist id="emailList">
+                <option value="*@qq.com">
+                <option value="*@163.com">
+                <option value="*@gmail.com">
+                <option value="*@yahoo.com.cn">
+                <option value="*@126.com">
+            </datalist>
         </div>
         <div class="list_item">
             <div class="width_70">Switch</div>
@@ -53,13 +73,38 @@
         </div>
         <div class="list_item">
             <div class="width_70">Textarea</div>
-            <textarea class="left_70" placeholder="Textarea"></textarea>
+            <textarea class="left_70" placeholder="Textarea" name="text"></textarea>
+        </div>
+        <div class="list_item">
+            <div class="width_70">image</div>
+            <!-- 图片需要压缩 -->
+            <input type="hidden" name="imgstr">
+            <div class="left_70 imgs"></div>
+            <!-- 不需要压缩 -->
+            <!-- <div class="left_70 imgs">
+                <div class="img_one block_70 relative border">
+                    <input class="absolute all" type="file" accept="image/*" name="image[]" multiple>
+                    <i class="icon icon_plus font_20 light"></i>
+                    <img class="contain" src="">
+                    <div class="img_close" onclick="del(this)">&times;</div>
+                </div>
+            </div> -->
+        </div>
+        <div class="list_item">
+            <div class="width_70">video</div>
+            <div class="left_70 relative text_center">
+                <div class="img_one block_70 border">
+                    <input class="absolute all" type="file" name="video" accept="video/*">
+                    <input type="hidden" name="videosrc" value=""/>
+                    <i class="icon icon_plus font_20 light"></i>
+                </div>
+            </div>
         </div>
         <div class="text_center padding_10_15">
-            <div class="btn btn_info">提交</div>
+            <button class="btn btn_info">提交</button>
             <div class="btn btn_danger">取消</div>
         </div>
-    </div>
+    </form>
     <div class="bg_white margin_b_15 list form">
         <div class="list_header">带有图标的表单</div>
         <div class="list_item">
@@ -113,10 +158,158 @@
         </div>
     </div>
 </body>
+<script type="text/template" charset="utf-8" id='img_template'>
+    {{for(var i=0;i<it.length;i++){ }}
+    <div class="img_one block_70 relative border">
+        <img class="contain" src="{{=it[i]}}">
+        <div class="img_close" onclick="del({{=i}})">&times;</div>
+    </div>
+    {{ } }}
+    {{ if(it.length>=0 && it.length<2){ }}
+    <div class="img_one block_70 relative border">
+        <input class="absolute all fade_out" type="file" accept="image/*" name="image">
+        <i class="icon icon_plus font_20 light"></i>
+    </div>
+    {{ } }}
+</script>
+<script type="text/template" charset="utf-8" id='list_template'>
+    {{for (var i in it.data){ }}
+        <option value="{{=i}}"{{ if(it.val==i){ }}selected{{ } }}>{{=it.data[i]}}</option>
+    {{ } }}
+</script>
 <script src="js/jquery.min.js"></script>
+<script src="js/doT.min.js"></script>
+<script src="js/func.js"></script>
 <script type="text/javascript">
-    $(".range input").on("touchmove change mousemove",function(){
-        $(this).closest(".list_item").find(".range_value").html($(this).val())
-    })
+    // 随滑块更新range数值
+        $(".range input").on("touchmove change mousemove",function(){
+            $(this).closest(".list_item").find(".range_value").html($(this).val())
+        })
+    // 邮箱输入提示
+        var str = $("#emailList").html();
+        $("#email").keyup(function(){
+            var con = $("#email").val().split("@")[0];
+            $("#emailList").html(str.replace(/\*/g,con))
+        })
+    // 联动
+        var evalList = doT.template($("#list_template").text());
+        level({ele:".level",data1:data1,data2:data2,level1:"idB",level2:"idB2",func:evalList})
+    // 大视频切割
+        $("input[name='video']").change(function(){
+            var file = $(this)[0].files[0],
+                name = file.name,
+                size = file.size,
+                succeed = 0;
+            var shardSize = 2 * 1024 * 1024,
+                shardCount = Math.ceil(size / shardSize);
+
+            for(var i = 0;i < shardCount;++i){
+                var start = i * shardSize,
+                end = Math.min(size, start + shardSize);
+                var form = new FormData();
+                form.append("data", file.slice(start,end));
+                form.append("name", name);
+                form.append("total", shardCount);
+                form.append("index", i + 1);
+                $.ajax({
+                    url: "server/upload_video.php",
+                    type: "POST",
+                    data: form,
+                    async: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(res){
+                        if(!res.message.error){console.log(res.message.path)
+                            // toast("ok",res.message.msg)
+                            // $(".video_preview").show().find("video").attr("src",res.message.path)
+                            // $("input[name='videosrc']").val(res.message.path)
+                        }
+                    },
+                    error: function(){
+                        alert('文件发送失败，请重新发送');
+                    }
+                });
+            }
+        })
+    // 提交form表单
+        $("#form").submit(function(e){
+            e.preventDefault();
+            with(this){
+                // 校验
+            }
+            // 有上传文件时
+                var formData = new FormData($("#form")[0]);
+                $.ajax({
+                    url: "send_data.php",
+                    // url: "server/upload_image.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (respond) {}
+                });
+            // 无上传文件时
+                // var formData = $("#form").serialize();
+                // $.post("send_data.php",formData,function(){
+
+                // },"json")
+        })
+    // 选择图片
+        // 图片需要压缩(单文件)
+            var evalImg = doT.template($("#img_template").text());
+            var img_arr=[],imgs=[];
+            $(".imgs").html(evalImg(img_arr));
+            $(".imgs").on("change",".img_one input",function(){
+                var file = this.files[0];
+                var URL = window.URL || window.webkitURL;
+                tobase64(file,function(res){
+                    imgs.push(res);
+                    $("input[name='imgstr']").val(imgs.join("%^"));
+                })
+                img_arr.push(URL.createObjectURL(file))
+                $(".imgs").html(evalImg(img_arr));
+                $(this).val("");
+            })
+        // 图片不需要压缩
+            // $(".imgs").on("change",".img_one input",function(){
+            //     var files = this.files;
+            //     var URL = window.URL || window.webkitURL;
+            //     // 多文件上传
+            //         for (var i = 0; i < files.length; i++) {
+            //             var len = $(".imgs").find(".img_one").length;
+            //             $(".img_one").eq(len-1).addClass("preview").find("img").attr("src",URL.createObjectURL(files[i]))
+            //             if(len<9){
+            //                 var ele = $(this).parent().clone();
+            //                 if(i >= files.length-1){
+            //                     ele.removeClass("preview").find("input").val("");
+            //                 }else{
+            //                     ele.removeClass("preview").find("input").remove();
+            //                 }
+            //                 ele.find("img").attr("src","");
+            //                 $(".imgs").append(ele);
+            //             }
+            //         }
+            //     // 单文件上传
+            //         // var ele = $(this).parent().clone();
+            //         // var len = $(".imgs").find(".img_one").length;
+            //         // $(".img_one").eq(len-1).addClass("preview").find("img").attr("src",URL.createObjectURL(file))
+            //         // if(len<2){
+            //         //     ele.find("input").val("");
+            //         //     $(".imgs").append(ele);
+            //         // }
+            // })
+    // 删除图片
+        // 图片需要压缩(单文件)
+            function del(i){
+                imgs.splice(i,1);
+                img_arr.splice(i,1);
+                $(".imgs").html(evalImg(img_arr));
+                $("input[name='imgstr']").val(imgs.join("%^"));
+            }
+        // 图片不需要压缩
+            // function del(obj){
+            //     $(obj).parent().remove()
+            // }
 </script>
 </html>

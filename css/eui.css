@@ -41,6 +41,7 @@
     input,select,textarea,button{
         font-family: "Microsoft Yahei";
         font-size: 14px;
+        line-height: 1.5;
         -webkit-appearance: none;
     }
     textarea {
@@ -51,7 +52,6 @@
         background: none;
         box-shadow: none;
         -webkit-user-select: text;
-        padding:3px;
     }
     button:focus,input:focus {
         outline: 0;
@@ -259,6 +259,11 @@
         height: 20px;
         line-height:20px;
     }
+    .block_70{
+        width:70px;
+        height: 70px;
+        line-height:70px;
+    }
 /*行间距*/
     .lineheight_1{
         line-height: 1;
@@ -361,31 +366,40 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+    .shadow{
+        box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+    }
 /*颜色*/
     /*白色*/
-        .white{
+        .white,.label_white{
             color: #f1f1f1;
         }
         .bg_white {
             background-color: #fff;
         }
+        .label_white{
+            border: 1px solid #f1f1f1;
+        }
     /*黑色*/
         .light{
             color: #8e8e8e;
+        }
+        .bg_light{
+            background-color: #f4f4f4;
         }
         .bg_dark{
             background: rgba(0,0,0,.5);
         }
     /*灰色*/
-        .border_grey{
+        .grey,.label_grey{
+            color:#ccc;
+        }
+        .border_grey,.btn_grey,.label_grey{
             border:1px solid #ccc;
         }
-        .bg_grey{
-            background: #e0e0e0;
-        }
-        .btn_grey{
-            border:1px solid #e0e0e0;
-            background: #e0e0e0;
+        .bg_grey,.btn_grey{
+            color: #888;
+            background-color: #e0e0e0;
         }
         .btn_grey:active {
             border-color:#bdbdbd;
@@ -878,11 +892,36 @@
         height: 100%;
         background-color: #03a9f4;
     }
+/*上传图像预览*/
+    .imgs{
+        overflow: hidden;
+        text-align: center;
+    }
+    .img_one{
+        float: left;
+        margin: 5px;
+    }
+    .img_one input{
+        opacity: 0;
+        z-index: 10
+    }
+    .img_close{
+        position: absolute;
+        right: -5px;
+        top: -5px;
+        width: 20px;
+        line-height: 20px;
+        background: rgba(0,0,0,.6);
+        color: #fff;
+        border-radius: 50%;
+        z-index: 10;
+    }
 /*导航栏*/
     .header {
         position: relative;
         padding:0 20%;
         line-height: 45px;
+        height: 45px;
         text-align: center;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -1513,4 +1552,32 @@
         line-height: 30px;
         -webkit-animation: marquee 10s linear infinite;
     }
-/**/
+/*适应屏*/
+    @media (min-width: 320px){
+        
+    }
+    @media (min-width: 360px){
+        
+    }
+    @media (min-width: 384px){
+        
+    }
+    @media (min-width: 414px){
+        
+    }
+    /*ipone4*/
+    @media (min-height: 416px){
+        
+    }
+    /*ipone5*/
+    @media (min-height: 504px){
+        
+    }
+    /*ipone6*/
+    @media (min-height: 603px){
+        
+    }
+    /*ipone6 plus*/
+    @media (min-height: 672px){
+        
+    }
