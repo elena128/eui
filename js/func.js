@@ -678,16 +678,10 @@
         })
 // 购物车相关计算
     // 改变数量函数
-        function change_cart(i,type,data){
+        function change_cart(i,n,data){
             var num = data.data[i].num;
-            if(type){
-                num+=1;
-            }else{
-                num-=1;
-                if(num <= 0){
-                    num = 1;
-                }
-            }
+            num += i;
+            num = num<1?1:num;
             data.data[i].num = num;
             return data;
         }
@@ -722,7 +716,7 @@
     // 百分比    ^-?\d+%$
     // 密码：包含大小写字母和数字的组合，长度在8-10之间 ^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$
     // 中文        ^[\u4e00-\u9fa5]+$
-    // 金额：2位小数 ^[0-9]+(.[0-9]{2})?$
+    // 金额：2位小数 ^[0-9]+(.[0-9]{1,2})?$
 // 模版加载数据
     // <script id="pro" type="text/template"></script>
     String.prototype.tmp = function(obj) {

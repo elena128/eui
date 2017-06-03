@@ -48,6 +48,7 @@
         resize: none;
     }
     input,select,textarea{
+        width:100%;
         border: none;
         background: none;
         box-shadow: none;
@@ -146,6 +147,9 @@
         margin-top: 15px;
         margin-bottom: 15px;
     }
+    .margin_b_15{
+        margin-bottom: 15px;
+    }
     .padding_3{
         padding:3px;
     }
@@ -201,6 +205,19 @@
         display: none;
     }
 /*布局*/
+    .fixed_top,.fixed_bottom{
+        position: fixed;
+        left: 0;
+        width: 100%;
+    }
+    .fixed_top{
+        top:0;
+        height: 50px;
+    }
+    .fixed_bottom{
+        bottom:0;
+        height: 50px;
+    }
     .all_width{
         width: 100%;
     }
@@ -248,7 +265,7 @@
     .left_200{
         width: calc(100% - 200px);
     }
-/*行内快*/
+/*行内块*/
     .block_16{
         width:16px;
         height: 16px;
@@ -452,14 +469,14 @@
         }
     /*绿色*/
         .success,.label_success{
-            color: #09BB07;
+            color: #04be02;
         }
         .border_success,.label_success,.btn_success{
-            border: 1px solid #09BB07;
+            border: 1px solid #04be02;
         }
         .bg_success,.btn_success {
             color: #f1f1f1;
-            background-color: #09BB07;
+            background-color: #04be02;
         }
         .btn_success:active {
             border-color: #117d10;
@@ -656,6 +673,34 @@
     .arrow_down:before {
         -webkit-transform: rotate(-45deg);
     }
+    /*.arrow_left,.arrow_right{
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border: 2px solid #dddddd;
+        border-top: none;
+        border-right: none;
+    }
+    .arrow_left {
+        -webkit-transform: rotate(45deg);
+    }
+    .arrow_right {
+        -webkit-transform: rotate(-135deg);
+    }*/
+/*三角形*/
+    .triangle_left,.triangle_right {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-top: 13px solid transparent;
+        border-bottom: 13px solid transparent;
+    }
+    .triangle_left {
+        border-right: 26px solid #dddddd;
+    }
+    .triangle_right {
+        border-left: 26px solid #dddddd;
+    }
 /*遮罩*/
     .mask {
         position: fixed;
@@ -768,27 +813,40 @@
         padding: 10px 0;
     }
 /*宫格布局*/
-    .grid {
-        width: 100%;
-        display: table;
+    .grid_3,.grid_4{
+        overflow: hidden;
         text-align: center;
     }
-    .grid [class*=col_] {
+    .grid_one {
         position: relative;
-        display: table-cell;
         padding: 1em 0;
+        float: left;
+        border-right:1px solid #eee;
+        border-bottom:1px solid #eee;
     }
-    .grid .icon {
+    .grid_one .icon {
         font-size: 2em;
     }
-    .grid .badge {
+    .grid_one .badge {
         top: 20%;
         right: 20%;
     }
-    .grid .dot {
+    .grid_one .dot {
         top: 20%;
         right: 20%;
     }
+    .grid_3 .grid_one{
+        width:33.33%;
+    }
+    .grid_4 .grid_one{
+        width:25%;
+    }
+    .grid_3 .grid_one:nth-child(3n),.grid_4 .grid_one:nth-child(4n){
+        border-right:0;
+    }
+    /*.grid_one:last-child,.grid_one:nth-last-child(2),.grid_one:nth-last-child(3),.grid_4 .grid_one:nth-last-child(4){
+        border-bottom:0;
+    }*/
 /*单选、多选、开关、滑块、进度条*/
     input.radio, input.checkbox, input.switch{
         position: relative;
@@ -950,28 +1008,19 @@
     }
 /*底部切换栏*/
     .foot_tab {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
         display: flex;
         display: -webkit-flex;
         background-color: #ffffff;
-        border-top: 1px solid #eee;
-        font-size: 12px;
+        border-top: 1px solid #ccc;
         text-align: center;
     }
     .foot_tab .foot_tab_item {
         position: relative;
         flex: 1;
         -webkit-flex:1;
-        height: 49px;
     }
-    .foot_tab_item .icon {
+    .foot_tab_item i {
         font-size: 20px;
-    }
-    .foot_tab .active {
-        color: #039be5;
     }
 /*tab切换类*/
     .tab,.tab_btn {
@@ -1056,7 +1105,6 @@
         display: flex;
         -webkit-align-items: center;
         align-items: center;
-        height: 40px;
     }
     .searchbar_input {
         position: relative;
@@ -1064,23 +1112,19 @@
         background-color: #ffffff;
     }
     .searchbar_input input {
-        width: 100%;
-        padding-left: 15px;
-        padding-right: 40px;
+        padding: 0 40px 0 15px;
         font-size: 12px;
-        line-height: 20px;
     }
-    .searchbar input::-webkit-input-placeholder {
+    .searchbar_input input::-webkit-input-placeholder {
         color: #ccc;
     }
-    .searchbar .icon_search {
+    .searchbar_input i {
         position: absolute;
         top: 2px;
         right: 2px;
         padding: 0 10px;
-        color: #8e8e8e;
     }
-    .searchbar .searchbar_right {
+    .searchbar .searchbar_icon {
         width: 50px;
         text-align: center;
     }
