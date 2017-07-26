@@ -1,0 +1,78 @@
+<header class="header fixed_top bg_info">
+    <div class="header_icon arrow_left" onclick="location.href='index.html'"></div>
+    <div class="header_content font_16">商品详情</div>
+    <div class="header_icon" onclick="location.href='index.html#cart'"><span class="icon icon_cart"></span><div class="badge cart_num" style="top:12px;">2</div></div>
+</header>
+<div class="swipe margin_top"></div>
+<div class="detail margin_bottom"></div>
+<footer class="fixed_bottom flex_justify padding_h_15 bg_info" style="height:50px;">
+    <div class="relative icon icon_cart font_20 text_center detail_cart" onclick="location.href='index.html#cart'">
+        <div class="badge cart_num" style="top:0;right:-5px;">1</div>
+    </div>
+    <div class="flex">
+        <div class="btn detail_addcart margin_r_5">加入购物车</div>
+        <div class="btn gobuy">立即购买</div>
+    </div>
+</footer>
+<script src="/resource/components/swipe/swipe.js"></script>
+<script type="text/template" charset="utf-8" id='swipe_template'>
+    <div class='swipe-wrap'>
+        {{ for(var i=0;i<it.length;i++){ }}
+        <div class="swipe_e">
+            <img src="{{=it[i]}}"/>
+        </div>
+        {{ } }}
+    </div>
+    <ul class="position">
+        {{ for(var i=0;i<it.length;i++){ }}
+        <li {{if(i==0){}}class="on"{{}}}></li>
+        {{ } }}
+    </ul>
+</script>
+<script type="text/template" charset="utf-8" id='detail_template'>
+    <div class="bg_white padding_10_15 border_b flex_justify">
+        <div>
+            <div class="font_16">{{=it.title}}</div>
+            <div class="text_info">商品介绍介绍介绍</div>
+        </div>
+        <div class="">
+            <div class="info font_18 lineheight_2">￥{{=it.price}}元</div>
+        </div>
+    </div>
+    <div class="bg_white padding_10_15 flex_justify margin_b_10">
+        <div class="font_18">购买数量</div>
+        <div class="border flex text_center lineheight_3">
+            <div class="padding_h_5 bg_grey padding_h_10 change_num" data-n="-1"><i class="icon icon_minus"></i></div>
+            <div class="border_l padding_h_5 text_center padding_h_15 number">1</div>
+            <div class="border_l padding_h_5 bg_grey padding_h_10 change_num" data-n="1"><i class="icon icon_plus"></i></div>
+        </div>
+    </div>
+    <div class="bg_white padding_10_15 margin_b_10">这是文章，可以后台编辑，编辑，编辑，编辑，这是文章，可以后台编辑，编辑，编辑，编辑这是文章，可以后台编辑，编辑，编辑，编辑这是文章，可以后台编辑，编辑，编辑，编辑这是文章，可以后台编辑，编辑，编辑，编辑这是文章，可以后台编辑，编辑，编辑，编辑这是文章，可以后台编辑，编辑，编辑，编辑这是文章，可以后台编辑，编辑，编辑，编辑</div>
+    <div class="bg_white">
+        <div class="info lineheight_3 border_b padding_h_15"><i class="iconfont icon-xiaoxixuanzhong01 font_20"></i> 顾客评论</div>
+        <div class="padding_h_15 border_b">
+            {{for(var i=0;i<3;i++){}}
+            <div class="light border_b padding_v_10">
+                <div class="flex_justify margin_b_10">
+                    <div class="width_30">
+                        <img class="circle" src="image/liulangnan.png" alt="">
+                    </div>
+                    <div class="width_50 text_ellipsis text_center">elena</div>
+                    <div class="width_100 grey">
+                        {{for(var j=0;j<5;j++){}}
+                            <i class="icon icon_star info"></i>
+                        {{}}}
+                    </div>
+                    <div class="font_12 text_ellipsis">2017年7月4日 12:00:23</div>
+                </div>
+                <div class="flex_row_3 margin_b_10">
+                    {{for(var j=0;j<3;j++){}}
+                        <div class="row_one"><img src="image/l{{=j+1}}.png" alt=""></div>
+                    {{}}}
+                </div>
+                <div class="">Very nice,nice,nice</div>
+            </div>
+            {{}}}
+        </div>
+    </div>
+</script>

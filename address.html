@@ -1,47 +1,41 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>收货地址管理</title>
-    <link rel="stylesheet" type="text/css" href="css/eui.css" />
-</head>
-<body>
-<div class="content">
-    <header class="header bg_info">
-        <div class="arrow_left" onclick="location.href='index.html'"></div>收货地址管理
-    </header>
-    <!-- 地址列表 -->
-    <div class="address_list list"></div>
-    <form class="edit_address list fixed all bg_white hide" style="z-index:10"></div>
-</div>
-<!-- 地址模版 -->
-<script type="text/template" charset="utf-8" id='list_template'>
+<header class="header fixed_top header_no_r bg_info">
+    <div class="header_icon arrow_left" onclick="location.href='index.html'"></div>
+    <div class="header_content font_16">收货地址管理</div>
+</header>
+<div class="address_list list bg_white margin_top"></div>
+<form class="edit_address list fixed all bg_white hide" style="z-index:10"></form>
+<script type="text/template" id='city_template'>
+    {{for (var i in it.data){ }}
+        {{if(it.val==i){}}
+            <option value="{{=i}}" selected>{{=it.data[i]}}</option>
+        {{}else{}}
+            <option value="{{=i}}" >{{=it.data[i]}}</option>
+        {{}}}
+    {{ } }}
+</script>
+<script type="text/template" id='add_template'>
     {{for(var i=0;i<it.length;i++){ }}
     <div class="list_item flex_center">
-        <label class="width_30" onclick="setdefault({{=i}})">
+        <label class="width_30 address_default" data-i="{{=i}}">
             <input type="radio" name="address" class="radio" {{if(it[i].default=="1"){}}checked{{}}}>
         </label>
-        <div class="left_100">
+        <div class="left_100 select_address" data-i="{{=i}}">
             <div class="label_span contact">{{=it[i].realname}}({{=it[i].mobile}})</div>
             <div class="label_span address">{{=it[i].province}}{{=it[i].city}}{{=it[i].area}}{{=it[i].address}}</div>
         </div>
-        <div class="width_30 text_center" onclick="address({{=i}})">
+        <div class="width_30 text_center address_edit" data-i="{{=i}}">
             <i class="icon icon_edit"></i>
         </div>
-        <div class="width_30 text_center" onclick="del({{=i}})">
+        <div class="width_30 text_center address_del" data-i="{{=i}}">
             <i class="icon icon_close"></i>
         </div>
     </div>
     {{ } }}
-    <div class="list_item" onclick="address()">
+    <div class="list_item address_edit">
         <i class="icon icon_plus" style="color: #000;font-weight: bold;"></i>新增收货地址
     </div>
 </script>
-<!-- 编辑地址浮层 -->
-<script type="text/template" charset="utf-8" id='edit_template'>
-    <input type="hidden" name="id" value="{{=it.id||''}}"/>
+<script type="text/template" id='edit_template'>
     <input type="hidden" name="default" value="{{=it.default||'0'}}"/>
     <div class="list_item flex">
         <div class="width_70">姓名</div>
@@ -68,48 +62,7 @@
         <input class="left_70" type="text" name="address" value="{{=it.address||''}}" placeholder="请输入您的详细地址" request title="您的详细地址"></select>
     </div>
     <div class="padding_15">
-        <button class="all_width btn_block btn_danger">确认</button>
-        <div class="btn_block btn_grey" style="margin-top:10px;" onclick="quit()">取消</div>
+        <button class="all_width btn_block btn_info">确认</button>
+        <div class="btn_block bg_grey address_quit" style="margin-top:10px;">取消</div>
     </div>
 </script>
-<!-- 城市模版 -->
-<script type="text/template" charset="utf-8" id='city_template'>
-    {{for (var i in it.data){ }}
-        <option value="{{=i}}"{{ if(it.val==i){ }}selected{{ } }}>{{=it.data[i]}}</option>
-    {{ } }}
-</script>
-<script language="javascript" src="js/jquery.min.js"></script>
-<script language="javascript" src="js/doT.min.js"></script>
-<script language="javascript" src="js/area.json"></script>
-<script language="javascript" src="js/func.js"></script>
-<script language="javascript" src="js/base.js"></script>
-<script type="text/javascript">
-    // 地址模版
-        var address_list = [{id:"1",province:"陕西省",city:"西安市",area:"未央区",address:"凤城五路这儿",realname:"elena",mobile:"13325481173",default:"0"},{id:"2",province:"陕西省",city:"西安市",area:"长安区",address:"凤城五路这儿",realname:"xx",mobile:"13325481173",default:"1"}];
-        var editno = "";
-        var evaladdress = doT.template($("#list_template").text());
-        var evaledit = doT.template($("#edit_template").text());
-        var evalcity = doT.template($("#city_template").text());
-        loaddata(".address_list",evaladdress,address_list);
-    // 设为默认
-        function setdefault(n){
-            for(var i=0;i<address_list.length;i++){
-                if(i == n){
-                    address_list[i].default = 1;
-                }else{
-                    address_list[i].default = 0;
-                }
-            }
-            loaddata(".address_list",evaladdress,address_list);
-            // ajax
-        }
-    // 删除地址
-        function del(i){
-            //提示确认
-            if(confirm("真的要删除吗？")){
-                address_list.splice(i,1);
-                loaddata(".address_list",evaladdress,address_list);
-                // ajax
-            }
-        }
-</script>   

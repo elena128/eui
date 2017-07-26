@@ -1,0 +1,439 @@
+<style>
+	.tab_btn,.tab_btn .tab_btn_item,.tab .tab_item.active {
+		color: #01BF02;
+        border-color:#01BF02;
+    }
+    .tab_btn .tab_btn_item.active {
+        color: #f1f1f1;
+        background-color: #01BF02;
+    }
+</style>
+<div class="bg_white">
+	<form class="padding_10_15">
+		<div class="flex circle_3 _border border_green">
+			<input class="padding_5" type="text" placeholder="关键字">
+			<button class="btn_green" style="border-radius:0;height:33px;padding:5px 10px;"><i class="icon icon_search"></i></button>
+		</div>
+	</form>
+	<div class="padding_h_15 font_12">
+		<div class="border_b border_t padding_v_10">
+			<div>客户姓名：<span class="light">elena</span></div>
+		    <div>月嫂等级：<span class="light">金牌</span></div>
+		    <div>预&ensp;产&ensp;期：<span class="light">2016-10-10</span>
+				<span class="label label_orange pull_right">问题订单</span>
+		    </div>
+		</div>
+	</div>
+	<div class="con">
+		<div class="padding_10_15">
+			<div class="tab_btn circle_5 lineheight_2">
+		        <div class="tab_btn_item active" for="guest_info">客户信息</div>
+		        <div class="tab_btn_item" for="statution_info">入户信息</div>
+		        <div class="tab_btn_item" for="record_info">尾款信息</div>
+		        <div class="tab_btn_item" for="other_info">问题订单</div>
+		    </div>
+		</div>
+		<!-- 客户信息 -->
+		<div class="tabnav_con guest_info">
+			<form action="" method="post" class="" role="form">
+				<input type="hidden" name="oop" value="basicinfo" />
+				<input type="hidden" name="oid" value="{$oid}" />
+				<div class="green padding_10_15 border_b">客户基本信息</div>
+				<div class="row">
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">服务类型</div>
+						<div class="left_70">
+							<select class="" name="type">
+								<option value="1">月嫂</option>
+								<option value="2">育儿嫂</option>
+								<option value="3">育婴师</option>
+							</select>
+						</div>
+					</div>
+					<div class="col_6 flex border_b padding_10_15">
+						<div class="width_70">预订时间</div>
+						<div class="left_70">
+							<input class="" type="date" name="bookdate" value="" style="height:21px;">
+						</div>
+					</div>
+					<div class="col_6 flex border_b padding_10_15">
+						<div class="width_70">客户姓名</div>
+						<div class="left_70">
+							<input class="" type="text" name="name" placeholder="姓名" value="" required>
+						</div>
+					</div>
+					<div class="col_6 flex border_b padding_10_15">
+						<div class="width_70">联系电话</div>
+						<div class="left_70">
+							<input class="" type="text" name="phone" placeholder="联系电话" value="" required pattern="^(?:13\d|15\d|17\d|18\d)\d{5}(\d{3}|\*{3})$" title="11位手机号"/>
+						</div>
+					</div>
+					<div class="col_6 flex border_b padding_10_15">
+						<div class="width_70">家人电话</div>
+						<div class="left_70">
+							<input class="" type="text" name="fphone" placeholder="家人电话" value="" pattern="^(?:13\d|15\d|17\d|18\d)\d{5}(\d{3}|\*{3})$" title="11位手机号"/>
+						</div>
+					</div>
+					<div class="col_6 flex border_b padding_10_15">
+						<div class="width_70">家庭住址</div>
+						<div class="left_70">
+							<input class="" type="text" name="address" placeholder="家庭住址" value=""/>
+						</div>
+					</div>
+				</div>
+				<div class="baseinfo">
+					<div class="flex border_b padding_10_15">
+						<div class="width_70">预产期</div>
+						<div class="left_70">
+							<input class="" type="date" name="edc" value="" / >
+						</div>
+					</div>
+					<div class="flex border_b padding_10_15">
+						<div class="width_70">生产医院</div>
+						<div class="left_70">
+							<input class="" type="text" name="hospital" placeholder="生产医院" value=""/>
+						</div>
+					</div>
+					<div class="border_b padding_10_15 arrow_down fold_menu">怀孕情况</div>
+					<div class="hide">
+						<label class="right_block border_b">
+							<div class="">单胎</div>
+							<input class="right_input" type="radio" name="pp" value='0' checked>
+					        <div class="right_icon info">√</div>
+						</label>
+						<label class="right_block border_b">
+							<div class="">双胎</div>
+							<input class="right_input" type="radio" name="pp" value='1'>
+					        <div class="right_icon info">√</div>
+						</label>
+						<label class="right_block border_b">
+							<div class="">头胎</div>
+							<input class="right_input" type="radio" name="pq" value='0' checked>
+					        <div class="right_icon info">√</div>
+						</label>
+						<label class="right_block border_b">
+							<div class="">二胎</div>
+							<input class="right_input" type="radio" name="pq" value='1'>
+					        <div class="right_icon info">√</div>
+						</label>
+					</div>
+				</div>
+				<div class="babyinfo row hide">
+					<div class="flex border_b padding_10_15">
+						<div class="width_70"><label class="weui_label">宝宝月龄</label></div>
+						<div class="left_70">
+							<input class="" type="text" name="age" placeholder="宝宝月龄" value="" / >
+						</div>
+					</div>
+					<div class="flex border_b padding_10_15">
+						<div class="width_70">喂养方式</div>
+						<div class="left_70">
+							<select class="" name="feedtype">
+								<option value="0">母乳</option>
+								<option value="1">奶粉</option>
+								<option value="2">混合</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="border_b padding_10_15 arrow_down fold_menu">信息来源</div>
+				<div class="hide">
+					<label class="right_block border_b">
+				        <div>网&emsp;&emsp;络</div>
+				        <input class="right_input" type="radio" name="sourceid" value='0' checked>
+				        <div class="right_icon info">√</div>
+				    </label>
+				    <label class="right_block border_b">
+				        <div>微&emsp;&emsp;信</div>
+				        <input class="right_input" type="radio" name="sourceid" value='1'>
+				        <div class="right_icon info">√</div>
+				    </label>
+				    <label class="right_block border_b">
+				        <div>朋友介绍</div>
+				        <input class="right_input" type="radio" name="sourceid" value='2'>
+				        <div class="right_icon info">√</div>
+				    </label>
+				    <label class="right_block border_b">
+				        <div>月嫂介绍<input class="width_100" type="text" name="yuesaoname" placeholder="月嫂姓名" value=""></div>
+				        <input class="right_input" type="radio" name="sourceid" value='3'>
+				        <div class="right_icon info">√</div>
+				    </label>
+				    <label class="right_block border_b">
+				        <div>老&ensp;客&ensp;户</div>
+				        <input class="right_input" type="radio" name="sourceid" value='4'>
+				        <div class="right_icon info">√</div>
+				    </label>
+				    <label class="right_block border_b">
+				        <div>其&emsp;&emsp;他</div>
+				        <input class="right_input" type="radio" name="sourceid" value='5'>
+				        <div class="right_icon info">√</div>
+				    </label>
+				</div>
+				<div class="border_b padding_10_15 arrow_down fold_menu">是否浏览过我们的网站或微信平台</div>
+				<div class="hide">
+					<label class="right_block border_b">
+				        <div>是</div>
+				        <input class="right_input" type="radio" name="is" value='0' checked>
+				        <div class="right_icon info">√</div>
+				    </label>
+				    <label class="right_block border_b">
+				        <div>否</div>
+				        <input class="right_input" type="radio" name="is" value='1' checked>
+				        <div class="right_icon info">√</div>
+				    </label>
+				</div>
+				<div class="green padding_10_15 border_b">服务需求</div>
+				<div class="row">
+					<div class="col_6 flex border_b padding_10_15">
+						<div class="width_70">要求等级</div>
+						<div class="left_70">
+							<select class="" name="mlid">
+								<option value="1">一级</option>
+								<option value="2">二级</option>
+								<option value="3">三级</option>
+							</select>
+						</div>
+					</div>
+					<div class="col_6 flex border_b padding_10_15">
+						<div class="width_70">定金金额</div>
+						<div class="left_70">
+							<input class="" type="text" name="earnest" value="">
+						</div>
+					</div>
+					<div class="col_12 flex border_b padding_10_15">
+						<div class="width_70"><label class="weui_label">收据编号</label></div>
+						<div class="left_70">
+							<input class="" type="text" name="receipt" value="">
+						</div>
+					</div>
+					<div class="col_12 border_b padding_10_15 arrow_down fold_menu">收款方式</div>
+					<div class="hide">
+						<label class="right_block border_b">
+					        <div>刷卡</div>
+					        <input class="right_input" type="radio" name="gathertype" value='0' checked>
+					        <div class="right_icon info">√</div>
+					    </label>
+					    <label class="right_block border_b">
+					        <div>转账</div>
+					        <input class="right_input" type="radio" name="gathertype" value='1'>
+					        <div class="right_icon info">√</div>
+					    </label>
+					    <label class="right_block border_b">
+					        <div>现金</div>
+					        <input class="right_input" type="radio" name="gathertype" value='2'>
+					        <div class="right_icon info">√</div>
+					    </label>
+					</div>
+					<div class="col_12 flex border_b padding_10_15">
+						<div class="width_70"><label class="weui_label">定金时间</label></div>
+						<div class="left_70">
+							<input class="" type="date" name="edc" value="" / >
+						</div>
+					</div>
+					<div class="col_12 border_b padding_10_15">
+						<textarea class="" placeholder="请输入服务要求" rows="3" maxlength="200" name="sr"></textarea>
+						<div class="text_right">0/<span class="text_left">200</span></div>
+					</div>
+				</div>
+				<div class="padding_10_15">
+					<input name="submit" type="submit" value="提交" class="btn_block btn_green">
+				</div>
+			</form>
+		</div>
+		<!-- 入户信息 -->
+		<div class="tabnav_con statution_info hide">
+			<form action="" method="post" class="" role="form">
+				<div class="row margin_b_10">
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70"><label class="weui_label">月嫂姓名</label></div>
+						<div class="left_70">
+							<input class="" type="text" name="name" value="" placeholder="月嫂姓名">
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">等&emsp;&emsp;级</div>
+						<div class="left_70">
+							<input class="" type="text" name="level" value="" placeholder="等级">
+						</div>
+					</div>
+					<div class="col_12 border_b border_r flex padding_10_15">
+						<div class="width_70">服务周期</div>
+						<div class="left_70">
+							<div class="flex">
+								<div class="flex_1">
+									<input class="" type="date" name="rsdate" id="rsdate" value="" placeholder="开始时间">
+								</div>
+								<div class="flex_1">
+									<input class="" type="date" name="redate" id="redate" value="" placeholder="结束时间">
+								</div>
+							</div>
+							<div class="">含
+								<select class="" name="half" style="width: 10px;padding-left: 0;">
+									<option value="0">0</option>
+								</select>
+								个半天
+							</div>
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">下&ensp;一&ensp;步</div>
+						<div class="left_70">
+							<select class="" name="paytype">
+								<option value="1">顺延</option>
+								<option value="2">换人</option>
+								<option value="3">终止</option>
+							</select>
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">满&ensp;意&ensp;度</div>
+						<div class="left_70">
+							<select class="" name="feedback">
+								<option value="1">满意</option>
+								<option value="2">投诉</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="text_center">
+					<button class="btn btn_green">编辑</button>
+					<button class="btn btn_green">结束服务</button>
+				</div>
+			</form>
+		</div>
+		<!--尾款信息-->
+		<div class="tabnav_con record_info hide">
+			<form action="" method="post" class="" role="form">
+				<div class="green padding_10_15 border_b">尾款信息</div>
+				<div class="row">
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">尾款金额</div>
+						<div class="left_70">
+							<input class="" type="text" name="finalpay" value="" placeholder="尾款金额">
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">尾款收据</div>
+						<div class="left_70">
+							<input class="" type="text" name="finalreceipt" value="" placeholder="尾款收据">
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">合同编号</div>
+						<div class="left_70">
+							<input class="" type="text" name="ono" value="" placeholder="合同编号">
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70">尾款时间</div>
+						<div class="left_70">
+							<input class="" type="date" name="paydate" value="" style="height:21px;">
+						</div>
+					</div>
+				</div>
+				<div class="border_b padding_10_15 arrow_down fold_menu">收款方式</div>
+				<div class="hide">
+					<label class="right_block border_b">
+						<div class="">刷卡</div>
+						<input class="right_input" type="radio" name="finalgathertype" value='0' checked>
+				        <div class="right_icon info">√</div>
+					</label>
+					<label class="right_block border_b">
+						<div class="">转账</div>
+						<input class="right_input" type="radio" name="finalgathertype" value='1' checked>
+				        <div class="right_icon info">√</div>
+					</label>
+					<label class="right_block border_b">
+						<div class="">现金</div>
+						<input class="right_input" type="radio" name="finalgathertype" value='2' checked>
+				        <div class="right_icon info">√</div>
+					</label>
+				</div>
+				<!--尾款信息中的回访记录-->
+				<div class="green padding_10_15 border_b">回访记录</div>
+				<div class="record_list margin_b_10" data-name='["recorddate","recordtype","recordcontent","recordresult"]'>
+					<div class="row margin_b_10">
+						<div class="col_6 border_b border_r flex padding_10_15">
+							<div class="width_70"><label class="weui_label">回访时间</label></div>
+							<div class="left_70">
+								<input class="" type="date" name="recorddate1" value="" placeholder="月嫂姓名" style="height:21px;">
+							</div>
+						</div>
+						<div class="col_6 border_b border_r flex padding_10_15">
+							<div class="width_70">方&emsp;&emsp;式</div>
+							<div class="left_70">
+								<select class="" name="recordtype1">
+									<option value="1">方式1</option>
+									<option value="2">方式2</option>
+									<option value="3">方式3</option>
+								</select>
+							</div>
+						</div>
+						<div class="col_12 border_b border_r flex padding_10_15">
+							<div class="width_70"><label class="weui_label">内&emsp;&emsp;容</label></div>
+							<div class="left_70">
+								<input class="" type="text" name="recordcontent1" value="" placeholder="内容">
+							</div>
+						</div>
+						<div class="col_12 border_b border_r flex padding_10_15">
+							<div class="width_70"><label class="weui_label">结&emsp;&emsp;果</label></div>
+							<div class="left_70">
+								<input class="" type="text" name="recordresult1" value="" placeholder="结果">
+							</div>
+						</div>
+					</div>
+					<div class="padding_10_15 addrecord green" onclick="add('.record_list',this,1)">
+						+添加一条回访记录
+					</div>
+				</div>
+				<div class="padding_10_15">
+					<input name="submit" type="submit" value="提交" class="btn_block btn_green">
+				</div>
+			</form>
+		</div>
+		<!-- 问题订单 -->
+		<div class="tabnav_con other_info hide">
+			<form action="" method="post" class="" role="form">
+				<div class="green padding_10_15 border_b">问题订单</div>
+				<div class="border_b padding_10_15">
+					<textarea class="weui_textarea" placeholder="问题描述" rows="3" maxlength="200" name="trouble"></textarea>
+					<div class="text_right">0/<span class="text_left">200</span></div>
+				</div>
+				<div class="refund row">
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70"><label class="weui_label">收据编号</label></div>
+						<div class="left_70">
+							<input class="" type="text" name="refundreceipt" placeholder="收据编号" value="">
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70"><label class="weui_label">退款时间</label></div>
+						<div class="left_70">
+							<input class="" type="date" name="refunddate" placeholder="退款时间" value="" style="height:21px;"/>
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70"><label class="weui_label">退款金额</label></div>
+						<div class="left_70">
+							<input class="" type="text" name="refundsum" placeholder="退款金额" value="">
+						</div>
+					</div>
+					<div class="col_6 border_b border_r flex padding_10_15">
+						<div class="width_70"><label class="weui_label">实际业绩</label></div>
+						<div class="left_70">
+							<input class="" type="text" name="realperformance" placeholder="实际业绩" value="">
+						</div>
+					</div>
+				</div>
+				<div class="text_center padding_10_15">
+					<input name="submit" type="submit" value="提交" class="btn_block btn_green">
+				</div>
+				<div class="green padding_10_15">订单操作</div>
+				<div class="weui_btn_area weui_btn_b text_center">
+					<button class="btn btn_green">完结此订单</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+	

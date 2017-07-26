@@ -6,116 +6,53 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>EUI</title>
     <link rel="stylesheet" type="text/css" href="css/eui.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/doT.min.js"></script>
+    <script src="js/func.js"></script>
+    <script src="js/area.json"></script>
+    <script src="js/base.js"></script>
 </head>
 <body>
-    <div class="content bg_white">
-        <ul class="list">
-            <li class="list_item" onclick="location.href='text.html'">
-                <div class="list_arrow">
-                    文本、标签、角标、红点
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='button.html'">
-                <div class="list_arrow">
-                    按钮
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='header.html'">
-                <div class="list_arrow">
-                    首尾导航栏
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='toolbar.html'">
-                <div class="list_arrow">
-                    工具条
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='radio.html'">
-                <div class="list_arrow">
-                    radio\checkbox\switch\range\progress
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='list.html'">
-                <div class="list_arrow">
-                    列表
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='article.html'">
-                <div class="list_arrow">
-                    图文布局
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='form.html'">
-                <div class="list_arrow">
-                    表单
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='popup.html'">
-                <div class="list_arrow">
-                    弹出菜单
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='grid.html'">
-                <div class="list_arrow">
-                    宫格布局
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='toast.html'">
-                <div class="list_arrow">
-                    Toast
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='dialog.html'">
-                <div class="list_arrow">
-                    对话框
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='chat.html'">
-                <div class="list_arrow">
-                    聊天气泡
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='pull_refresh.html'">
-                <div class="list_arrow">
-                    下拉刷新
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='iconfont.html'">
-                <div class="list_arrow">
-                    图标
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='wechat.html'">
-                <div class="list_arrow">
-                    微信
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='news_today.html'">
-                <div class="list_arrow">
-                    今日头条
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='zhihu.html'">
-                <div class="list_arrow">
-                    知乎首页
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='address.html'">
-                <div class="list_arrow">
-                    地址管理
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='cart.html'">
-                <div class="list_arrow">
-                    购物车
-                </div>
-            </li>
-            <li class="list_item" onclick="location.href='confirm.html'">
-                <div class="list_arrow">
-                    订单确认
-                </div>
-            </li>
-        </ul>
-    </div>
+    <div class="content list"></div>
+    <script type="text/template" id='menu_template'>
+        {{for(var i in it){}}
+            {{if(i !== "detail"){}}
+                <div class="list_item bg_white list_arrow" onclick="loadpage('{{=i}}')">{{=it[i].name}}</div>
+            {{}}}
+        {{}}}
+    </script>
 </body>
+<script>
+    // 页面初始化
+        var evalmenu = doT.template($("#menu_template").text());
+        var t = location.hash.split("#")[1];
+        if(t){
+            loadinit(t);
+        }else{
+            $(".content").html(evalmenu(menu));
+        }
+    // 切换页面
+        function loadpage(temp){
+            window.history.pushState({edit:"edit"},"edit",window.location+"#"+temp);
+            loadinit(temp);
+        }
+        function loadinit(temp){
+            $(".content").load(temp+".html",function(){
+                menu[temp].init();
+            });
+        }
+    // 返回
+        window.addEventListener("popstate", function() {
+            var t = location.hash.split("#")[1];
+            var currentState = history.state;
+            if(t){console.log(t)
+                loadinit(t);
+                return false;
+            }
+            if(!currentState){
+                location.href = window.location;
+            }
+        });
+</script>
 </html>

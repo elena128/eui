@@ -1,43 +1,30 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>订单确认</title>
-    <link rel="stylesheet" type="text/css" href="css/eui.css" />
-    <style type="text/css">
-        body{
-            background: #f5f5f5;
-        }
-    </style>
-</head>
-<body>
-<div class="content">
-    <header class="header" style="padding:0 15px;font-size:12px;text-align:left;"><span class="icon icon_info font_16 padding_r_10"></span>确认订单后请尽快付款，过时订单将自动取消。</header>
-    <form class="order_info"></form>
-    <div class="bg_white absolute all address_list hide" style="z-index:10"></div>
-    <div class="bg_white absolute all carrier_list hide" style="z-index:10"></div>
-    <div class="bg_white absolute all deliver_list hide" style="z-index:10"></div>
-    <form class="bg_white absolute all edit_address hide" style="z-index:11"></form>
-</div>
-<!-- 订单模版 -->
-<script type="text/tamplate" id="order_template">
+<header class="header" style="padding:0 15px;font-size:12px;text-align:left;"><span class="icon icon_info font_16 padding_r_10"></span>确认订单后请尽快付款，过时订单将自动取消。</header>
+<form class="order_info"></form>
+<div class="bg_white absolute all address_list hide" style="z-index:10"></div>
+<div class="bg_white absolute all carrier_list hide" style="z-index:10"></div>
+<div class="bg_white absolute all deliver_list hide" style="z-index:10"></div>
+<form class="bg_white absolute all edit_address hide" style="z-index:11"></form>
+<script type="text/template" id='order_template'>
     <!-- 快递和自提内容 -->
     <div class="list margin_b_10">
         <div class="list_item flex bg_white">
-            <div class="label {{if(it.sendtype=='1'){}}label_danger{{}else{}}label_grey{{}}} margin_r_5" onclick="select_sendtype(1)">快递配送</div>
-            <div class="label {{if(it.sendtype=='2'){}}label_danger{{}else{}}label_grey{{}}}" onclick="select_sendtype(2)">上门自提</div>
+            <div class="label select_sendtype {{if(it.sendtype=='1'){}}info{{}else{}}light{{}}} margin_r_5" data-n="1">快递配送</div>
+            <div class="label select_sendtype {{if(it.sendtype=='2'){}}info{{}else{}}light{{}}}" data-n="2">上门自提</div>
         </div>
         <div class="type_delivery {{if(it.sendtype=='2'){}}hide{{}}}">
             <div class="list_item v_center arrow_right bg_white">
                 <span class="icon icon_location width_30 font_20"></span>
-                <div class="left_30" onclick="open_layer(1)">
-                    <div class="font_16">收件人：<span class="">{{=it.address.realname}}({{=it.address.mobile}})</span></div>
-                    <div class="light">{{=it.address.address}}</div>
+                <div class="left_30" onclick="location.href='index.html?type=select#address'">
+                    <div class="font_16">收件人：
+                    {{if(it.address.realname){}}
+                        <span class="">{{=it.address.realname}}({{=it.address.mobile}})</span></div>
+                        <div class="light">{{=it.address.province}}{{=it.address.city}}{{=it.address.area}}{{=it.address.address}}</div>
+                    {{}else{}}
+                        <div class="font_12">还没有默认地址，快去添加吧</div></div>
+                    {{}}}
                 </div>
             </div>
-            <div class="list_item h_justify font_16 arrow_right bg_white" onclick="open_layer(3)">
+            <div class="list_item h_justify font_16 arrow_right bg_white open_layer" data-i="3">
                 <div class="">选择配送方式</div>
                 <div class="padding_r_10">{{=it.delivery}}快递</div>
             </div>
@@ -45,7 +32,7 @@
         <div class="type_self {{if(it.sendtype=='1'){}}hide{{}}}">
             <div class="list_item v_center arrow_right bg_white">
                 <span class="icon icon_location width_30 font_20"></span>
-                <div class="left_30" onclick="open_layer(2)">
+                <div class="left_30 open_layer" data-i="2">
                     <div class="font_16">自提点联系人：<span class="self_contact">{{=it.carrier.realname}}({{=it.carrier.mobile}})</span></div>
                     <div class="light">地址：{{=it.carrier.address}}</div>
                     <div class="light">备注：{{=it.carrier.remark}}</div>
@@ -71,111 +58,70 @@
             <span class="width_30 icon icon_calendar padding_r_10 font_20"></span>
             <div class="left_30">微你云商</div>
         </div>
-        <!-- 从购物车结算 -->
-        <div class="list_item bg_white flex hide">
-            <div class="width_50">
-                <img src="image/sunshine.jpg">
-            </div>
-            <div class="left_50 light padding_l_10">
-                <div class="h_justify">
-                    <div class="left_100 text_ellipsis">这是一个商品，名字要长点</div>
-                    <div class="width_100">￥ 26.44</div>
+        {{for(var i in it.cart){}}
+            {{if(it.cart[i].selected){}}
+            <div class="flex bg_white padding_10_15 border_b">
+                <div class="width_100">
+                    <img class="circle_5" src="{{=it.cart[i].img}}" alt="">
                 </div>
-                <div class="text_right">X 6</div>
-            </div>
-        </div>
-        <!-- 从详情页结算 -->
-        <div class="list_item bg_white flex">
-            <div class="width_50">
-                <img src="{{=it.goodsimg}}">
-            </div>
-            <div class="left_50 light padding_l_10">
-                <div class="h_justify margin_b_10">
-                    <div class="left_100 text_ellipsis">{{=it.goodsname}}</div>
-                    <div class="width_100">￥ {{=it.goodsprice.toFixed(2)}}</div>
-                </div>
-                <div class="row">
-                    <div class="pull_right border flex">
-                        <div class="padding_h_5" onclick="change_num(-1)">
-                            <i class="icon icon_minus danger"></i>
-                        </div>
-                        <div class="border_l padding_h_5 text_center" style="width:24px;">{{=it.num}}</div>
-                        <div class="border_l padding_h_5" onclick="change_num(1)">
-                            <i class="icon icon_plus info"></i>
-                        </div>
+                <div class="left_100 padding_l_10">
+                    <div class="margin_b_10">
+                        <span>{{=it.cart[i].title}}</span>
+                        <input type="hidden" name="goodsid[]" value="{{=it.cart[i].id}}">
+                    </div>
+                    <div class="font_10 warning font_18">￥{{=it.cart[i].price}}</div>
+                    <div class="flex_justify light">
+                        <div class="linethrough">{{=it.cart[i].o_price}}</div>
+                        <div class="">x{{=it.cart[i].num}}</div>
+                        <input type="hidden" name="goodsnum[]" value="{{=it.cart[i].num}}">
                     </div>
                 </div>
             </div>
-        </div>
+            {{}}}
+        {{} }}
         <div class="list_item bg_white">
             <textarea class="all_width bg_light padding_5 font_12" rows="3" name="remark" placeholder="在这里输入您给卖家的留言"></textarea>
         </div>
-        <div class="list_item text_right light font_16 bg_white">共 <span class="totalnum">{{=it.num}}</span> 件商品 合计：<span class="danger price1">￥{{=it.totalprice.toFixed(2)}}</span></div>
     </div>
     <!-- 订单统计 -->
     <div class="bg_white light padding_10_15 margin_b_10">
-        <div class="h_justify">
-            <span>商品金额</span>
-            <div class="">￥ <span class="price">{{=it.price.toFixed(2)}}</span></div>
+        {{if(it.credit){}}
+        <div class="padding_10_15 border_b bg_white h_justify font_14">
+            <label class=""><input type="checkbox" name="usecredit" class="checkbox"> 是否使用积分抵扣</label>
+            <div class="light">{{=it.credit}}积分可抵{{=it.reduce}}元</div>
         </div>
-        <div class="h_justify">
-            <span>+运费</span>
-            <div class="">￥ <span class="freight">{{=it.freight.toFixed(2)}}</span></div>
+        {{}}}
+        <div class="padding_10_15 bg_white border_b h_justify">
+            <span>运费</span>
+            <span class="warning">￥{{=it.freight.toFixed(2)}}</span>
         </div>
+        <div class="padding_10_15 bg_white border_b text_right">合计：<span class="warning">￥{{=it.totalprice.toFixed(2)}}</span></div>
     </div>
     <!-- 付款 -->
     <div class="bg_white row padding_10_15">
-        <div class="pull_right danger">
-            需要付款：<span class="total_price">{{=it.totalprice.toFixed(2)}}</span>
-            <input type="hidden" name="sendtype" value="{{=it.sendtype}}">
-            <input type="hidden" name="num" value="{{=it.num}}">
-            <input type="hidden" name="price" value="{{=it.price}}">
-            <input type="hidden" name="totalprice" value="{{=it.totalprice}}">
-            <input type="hidden" name="freight" value="{{=it.freight}}">
-            <input type="hidden" name="weight" value="{{=it.weight}}">
-            <input type="hidden" name="goodsid" value="{{=it.goodsid}}">
-
-            <input type="hidden" name="address" value="{{=it.address.address}}">
-            <input type="hidden" name="realname" value="{{=it.address.realname}}">
-            <input type="hidden" name="mobile" value="{{=it.address.mobile}}">
-            <input type="hidden" name="delivery" value="{{=it.delivery}}">
-
-            <input type="hidden" name="carrier_realname" value="{{=it.carrier.realname}}">
-            <input type="hidden" name="carrier_mobile" value="{{=it.carrier.mobile}}">
-            <input type="hidden" name="carrier_address" value="{{=it.carrier.address}}">
-            <input type="hidden" name="carrier_remark" value="{{=it.carrier.remark}}">
-            <button class="btn btn_danger">确认付款</button>
+        <div class="pull_right light">
+            需要付款：<span class="allprice">{{=it.allprice.toFixed(2)}}</span>
+            <button class="btn btn_info">确认付款</button>
         </div>
     </div>
 </script>
-<!-- 地址浮层 -->
-<script type="text/tamplate" id="address_template">
-    <ul class="list">
-        {{for(var i=0;i<it.length;i++){ }}
-        <li class="list_item v_center">
-            <label class="left_50 v_center" onclick="select_para(1,{{=i}})">
-                <input type="radio" name="addressid" class="radio width_30" value="{{=i}}" {{if(it[i].selected){}}checked{{ } }}>
-                <div class="padding_l_10 left_30">
-                    <div class="">{{=it[i].realname}}({{=it[i].mobile}})</div>
-                    <div class="light">{{=it[i].address}}</div>
-                </div>
-            </label>
-            <div class="width_50 text_center select_edit" onclick="address({{=i}})">
-                <i class="icon icon_edit"></i>
-            </div>
-        </li>
-        {{ } }}
-        <li class="list_item" onclick="address()">
-            <i class="icon icon_plus"></i> 新增收货地址
-        </li>
-    </ul>
-</script>
-<!-- 自提地点浮层 -->
-<script type="text/tamplate" id="carrier_template">
+<script type="text/template" id='delivery_template'>
     <ul class="list">
         {{ for(var i in it){ }}
         <li class="list_item v_center">
-            <label class="v_center" onclick="select_para(2,{{=i}})">
+            <label class="light select_para" data-i="{{=i}}" data-n="3">
+                <input type="radio" name="deliveryid" class="radio" value="{{=i}}" {{if(it[i].selected){}}checked{{ } }}>
+                <span class="padding_l_10">{{=i}}快递</span>
+            </label>
+        </li>
+        {{ } }}
+    </ul>
+</script>
+<script type="text/template" id='carrier_template'>
+    <ul class="list">
+        {{ for(var i in it){ }}
+        <li class="list_item v_center">
+            <label class="v_center select_para" data-i="{{=i}}" data-n="2">
                 <input type="radio" name="carrierid" class="radio width_30" value="{{=i}}" {{if(it[i].selected){}}checked{{ } }}>
                 <div class="left_30 padding_l_10">
                     <div class="">{{=it[i].realname}}({{=it[i].mobile}})</div>
@@ -187,151 +133,3 @@
         {{ } }}
     </ul>
 </script>
-<!-- 配送方式浮层 -->
-<script type="text/tamplate" id="delivery_template">
-    <ul class="list">
-        {{ for(var i in it){ }}
-        <li class="list_item v_center">
-            <label class="light" onclick="select_para(3,'{{=i}}')">
-                <input type="radio" name="deliveryid" class="radio" value="{{=i}}" {{if(it[i].selected){}}checked{{ } }}>
-                <span class="padding_l_10">{{=i}}快递</span>
-            </label>
-        </li>
-        {{ } }}
-    </ul>
-</script>
-<!-- 编辑收货地址浮层 -->
-<script type="text/tamplate" id="edit_template">
-    <div class="list">
-        <div class="list_item flex">
-            <div class="width_70">姓名</div>
-            <input class="left_70" type="text" name="realname" value="{{=it.realname||''}}" placeholder="请输入您的姓名" request title="您的姓名">
-        </div>
-        <div class="list_item flex">
-            <div class="width_70">手机号</div>
-            <input class="left_70" type="text" name="mobile" value="{{=it.mobile||''}}" placeholder="请输入您的手机号" request data-pattern="^(0|86|17951)?(13\d|15[0-35-9]|17[678]|18\d|14[57])\d{8}$" title="您的手机号" data-tips="正确格式的手机号">
-        </div>
-        <div class="list_item flex">
-            <div class="width_70">省</div>
-            <select class="left_70 select1" name="province"></select>
-        </div>
-        <div class="list_item flex">
-            <div class="width_70">市</div>
-            <select class="left_70 select2" name="city"></select>
-        </div>
-        <div class="list_item flex">
-            <div class="width_70">区</div>
-            <select class="left_70 select3" name="area"></select>
-        </div>
-        <div class="list_item flex">
-            <div class="width_70">详细地址</div>
-            <input class="left_70" type="text" name="address" value="{{=it.address||''}}" placeholder="请输入您的详细地址" request title="您的详细地址"></select>
-        </div>
-        <div class="padding_15">
-            <button class="all_width btn_block btn_danger">确认</button>
-            <div class="btn_block btn_grey" style="margin-top:10px;" onclick="quit()">取消</div>
-        </div>
-    </div>
-</script>
-<!-- 城市模版 -->
-<script type="text/template" charset="utf-8" id='city_template'>
-    {{for (var i in it.data){ }}
-        <option value="{{=i}}"{{ if(it.val==i){ }}selected{{ } }}>{{=it.data[i]}}</option>
-    {{ } }}
-    </script>
-<script language="javascript" src="js/jquery.min.js"></script>
-<script language="javascript" src="js/doT.min.js"></script>
-<script language="javascript" src="js/area.json"></script>
-<script language="javascript" src="js/func.js"></script>
-<script language="javascript" src="js/base.js"></script>
-<script type="text/javascript">
-    // 地址模版
-        var address_list = [{id:"1",province:"陕西省",city:"西安市",area:"未央区",address:"凤城五路这儿",realname:"elena",mobile:"13325481173",selected:1},{id:"2",province:"陕西省",city:"西安市",area:"长安区",address:"凤城五路这儿",realname:"xx",mobile:"13325481173"}];
-        var editno = "";
-        var evaladdress = doT.template($("#address_template").text());
-        var evaledit = doT.template($("#edit_template").text());
-        var evalcity = doT.template($("#city_template").text());
-        loaddata(".address_list",evaladdress,address_list);
-    // 自提点
-        var carrier_list = {"1":{realname:"廖英",mobile:"13326784467",address:"湖南省益阳市阮江市巴山西路园丁花园9017号(百合车站对面)微你云商体验店",remark:"为避免因商品缺货不能一次性提取，建议自提客户进行自提前至少提前按一个小时预约，确保商品完整。",selected:1},"2":{realname:"elena",mobile:"13325481173",address:"湖南省益阳市阮江市巴山西路园丁花园9017号(百合车站对面)微你云商体验店",remark:"为避免因商品缺货不能一次性提取，建议自提客户进行自提前至少提前按一个小时预约，确保商品完整。"}};
-        var evalcarrier = doT.template($("#carrier_template").text());
-        loaddata(".carrier_list",evalcarrier,carrier_list);
-    // 快递模版
-        var delivery_list = {"申通":{price:8.00,weight:2000,secondweight:1000,secondprice:2.00,selected:1},"韵达":{price:10.00,weight:2000,secondweight:1000,secondprice:"2.00"}};
-        var evaldelivery = doT.template($("#delivery_template").text());
-        loaddata(".deliver_list",evaldelivery,delivery_list);
-    // 订单模版
-        var order_info = {sendtype:1,address:address_list["1"],delivery:"申通",carrier:carrier_list["1"],num:4,totalprice:0,price:0,freight:0,weight:0,goodsid:"1",goodsname:"这是一个商品，名字要长点",goodsimg:"image/sunshine.jpg",goodsprice:26.44,goodsweight:200,freeprice:false}
-        var evalorder = doT.template($("#order_template").text());
-        loaddata(".order_info",evalorder,cal_total(order_info));
-
-    // 选择快递或自提
-        function select_sendtype(n){
-            order_info.sendtype = n;
-            loaddata(".order_info",evalorder,cal_total(order_info));
-        }
-    // 商品数目加减
-        function change_num(i){
-            order_info.num += i;
-            order_info.num = order_info.num<1?1:order_info.num;
-            loaddata(".order_info",evalorder,cal_total(order_info));
-        }
-    // 计算总价
-        function cal_total(d){
-            d.weight = d.goodsweight*d.num;
-            d.price = d.goodsprice*d.num;
-            if(d.sendtype==1 && !d.freeprice || (d.sendtype==1 && d.freeprice && d.price<d.freeprice)){
-                d.freight = d.weight<delivery_list[d.delivery].weight?delivery_list[d.delivery].price:delivery_list[d.delivery].price+(d.weight-delivery_list[d.delivery].weight)/delivery_list[d.delivery].secondweight*delivery_list[d.delivery].secondprice;
-            }else if(d.sendtype==2 || (d.sendtype==1 && d.freeprice && d.price>=d.freeprice)){
-                d.freight = 0;
-            }
-            d.totalprice = d.price + d.freight;
-            return d;
-        }
-
-    // 打开选择浮层
-        function open_layer(n){
-            $(".content").scrollTop(0).css("overflow","hidden");
-            switch(n){
-                case(1):var ele = ".address_list";break;
-                case(2):var ele = ".carrier_list";break;
-                case(3):var ele = ".deliver_list";break;
-            }
-            $(ele).show();
-        }
-    // 选择地址、自提点、快递方式
-        function select_para(n,i){
-            switch(n){
-                case(1):var ele = ".address_list";order_info.address = address_list[i];break;
-                case(2):var ele = ".carrier_list";order_info.carrier = carrier_list[i];break;
-                case(3):var ele = ".deliver_list";order_info.delivery = i;break;
-            }
-            $(ele).hide();
-            $(".main").css("overflow","auto");
-            loaddata(".order_info",evalorder,cal_total(order_info));
-        }
-
-    // 提交订单
-        $(".order_info").submit(function(e){
-            e.preventDefault();
-            with(this){
-                // 校验
-                var i = true;
-                $.each(this,function(k,v){
-                    if($(v).attr("request")==""){
-                        if(!checkone(v)){
-                            i = false;
-                            return false;
-                        }
-                    }
-                })
-                if(i){
-                    //ajaxsubmit...
-                    var data_submit = $(".order_info").serializeObject();
-                    console.log(data_submit)
-                }
-            }
-        })
-</script>
-</body>
-</html>

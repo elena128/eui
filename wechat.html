@@ -1,118 +1,104 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>朋友圈</title>
-    <link rel="stylesheet" type="text/css" href="css/eui.css" />
-    <style type="text/css">
-        body {
-            background-color: #f3f3f7;
-        }
-        .row.circle_3 {
-            padding:2px;
-            background-color: #dddee0;
-        }
-        .row .col_4,.row .col_6 {
-            padding:1px;
-        }
-    </style>
-</head>
-<body>
-    <header class="header bg_info">
-        <div class="arrow_left" onclick="location.href='index.html'"></div>微信
-        <div class="header_icon">
-            <span class="icon icon_plus"></span>
+<style type="text/css">
+    .row.circle_3 {
+        padding:2px;
+        background-color: #dddee0;
+    }
+    .row .col_4,.row .col_6 {
+        padding:1px;
+    }
+</style>
+<header class="header fixed_top bg_info">
+    <div class="header_icon arrow_left" onclick="location.href='index.html'"></div>
+    <div class="header_content font_16">微信</div>
+    <div class="header_icon">
+        <span class="icon icon_plus"></span>
+    </div>
+</header>
+<ul class="list margin_top">
+    <li class="list_item flex font_16">
+        <div class="width_30">
+            <i class="icon icon_mobile"></i>
         </div>
-    </header>
-    <ul class="list">
-        <li class="list_item flex font_16">
-            <div class="width_30">
-                <i class="icon icon_mobile"></i>
+        <div class="left_30">Mac 微信已登录</div>
+    </li>
+    <li class="list_item flex">
+        <div class="width_50 relative">
+            <div class="badge" style="top:-3px;right:-5px;">9</div>
+            <div class="row border circle_3">
+                <img class="col_4" src="image/demo1.png" />
+                <img class="col_4" src="image/demo2.png" />
+                <img class="col_4" src="image/demo3.png" />
+                <img class="col_4" src="image/demo4.png" />
+                <img class="col_4" src="image/demo5.png" />
+                <img class="col_4" src="image/demo6.png" />
+                <img class="col_4" src="image/demo1.png" />
+                <img class="col_4" src="image/demo2.png" />
+                <img class="col_4" src="image/demo3.png" />
             </div>
-            <div class="left_30">Mac 微信已登录</div>
-        </li>
-        <li class="list_item flex">
-            <div class="width_50 relative">
-                <div class="badge" style="top:-3px;right:-5px;">9</div>
-                <div class="row border circle_3">
-                    <img class="col_4" src="image/demo1.png" />
-                    <img class="col_4" src="image/demo2.png" />
-                    <img class="col_4" src="image/demo3.png" />
-                    <img class="col_4" src="image/demo4.png" />
-                    <img class="col_4" src="image/demo5.png" />
-                    <img class="col_4" src="image/demo6.png" />
-                    <img class="col_4" src="image/demo1.png" />
-                    <img class="col_4" src="image/demo2.png" />
-                    <img class="col_4" src="image/demo3.png" />
-                </div>
+        </div>
+        <div class="left_50 padding_l_10">
+            <div class="h_justify">
+                <div class="">AUI微信开发交流群</div>
+                <div class="">08:00</div>
             </div>
-            <div class="left_50 padding_l_10">
-                <div class="h_justify">
-                    <div class="">AUI微信开发交流群</div>
-                    <div class="">08:00</div>
-                </div>
-                <div class="text_info">
-                    流浪男:欢迎使用AUI 2.0
-                </div>
+            <div class="text_info">
+                流浪男:欢迎使用AUI 2.0
             </div>
-        </li>
-        <li class="list_item flex">
-            <div class="width_50">
-                <div class="row border circle_3">
-                    <img class="col_6" src="image/demo2.png" />
-                    <img class="col_6" src="image/demo1.png" />
-                    <img class="col_6" src="image/demo5.png" />
-                    <img class="col_6" src="image/demo3.png" />
-                </div>
+        </div>
+    </li>
+    <li class="list_item flex">
+        <div class="width_50">
+            <div class="row border circle_3">
+                <img class="col_6" src="image/demo2.png" />
+                <img class="col_6" src="image/demo1.png" />
+                <img class="col_6" src="image/demo5.png" />
+                <img class="col_6" src="image/demo3.png" />
             </div>
-            <div class="left_50 padding_l_10">
-                <div class="flex">
-                    <div class="left_70 text_ellipsis">AUI 2.0讨论组0讨论组0讨论组0讨论组0讨论组0讨论组0讨论组</div>
-                    <div class="width_70 text_right">08:00</div>
-                </div>
-                <div class="text_info">AUI:官方网站 www.auicss.com</div>
+        </div>
+        <div class="left_50 padding_l_10">
+            <div class="flex">
+                <div class="left_70 text_ellipsis">AUI 2.0讨论组0讨论组0讨论组0讨论组0讨论组0讨论组0讨论组</div>
+                <div class="width_70 text_right">08:00</div>
             </div>
-        </li>
-        <li class="list_item flex bg_white">
-            <div class="width_50 relative">
-                <div class="badge" style="top:-3px;right:-5px;">9</div>
-                <img class="circle_3" src="image/demo5.png" />
+            <div class="text_info">AUI:官方网站 www.auicss.com</div>
+        </div>
+    </li>
+    <li class="list_item flex bg_white">
+        <div class="width_50 relative">
+            <div class="badge" style="top:-3px;right:-5px;">9</div>
+            <img class="circle_3" src="image/demo5.png" />
+        </div>
+        <div class="left_50 padding_l_10">
+            <div class="h_justify">
+                <div class="">流浪男</div>
+                <div class="">星期一</div>
             </div>
-            <div class="left_50 padding_l_10">
-                <div class="h_justify">
-                    <div class="">流浪男</div>
-                    <div class="">星期一</div>
-                </div>
-                <div class="text_info">Hello AUI 2.0!</div>
+            <div class="text_info">Hello AUI 2.0!</div>
+        </div>
+    </li>
+    <li class="list_item flex bg_white">
+        <div class="width_50">
+            <img class="circle_3" src="image/demo1.png" />
+        </div>
+        <div class="left_50 padding_l_10">
+            <div class="h_justify">
+                <div class="">张三</div>
+                <div class="">1天前</div>
             </div>
-        </li>
-        <li class="list_item flex bg_white">
-            <div class="width_50">
-                <img class="circle_3" src="image/demo1.png" />
+            <div class="text_info">Hello AUI 2.0!</div>
+        </div>
+    </li>
+    <li class="list_item flex bg_white">
+        <div class="width_50 relative">
+            <div class="dot" style="top:-3px;right:-3px;"></div>
+            <img class="circle_3" src="image/demo4.png" />
+        </div>
+        <div class="left_50 padding_l_10">
+            <div class="h_justify">
+                <div class="">李四</div>
+                <div class="">星期一</div>
             </div>
-            <div class="left_50 padding_l_10">
-                <div class="h_justify">
-                    <div class="">张三</div>
-                    <div class="">1天前</div>
-                </div>
-                <div class="text_info">Hello AUI 2.0!</div>
-            </div>
-        </li>
-        <li class="list_item flex bg_white">
-            <div class="width_50 relative">
-                <div class="dot" style="top:-3px;right:-3px;"></div>
-                <img class="circle_3" src="image/demo4.png" />
-            </div>
-            <div class="left_50 padding_l_10">
-                <div class="h_justify">
-                    <div class="">李四</div>
-                    <div class="">星期一</div>
-                </div>
-                <div class="text_info">Hello AUI 2.0!</div>
-            </div>
-        </li>
-    </ul>
-</body>
-</html>
+            <div class="text_info">Hello AUI 2.0!</div>
+        </div>
+    </li>
+</ul>

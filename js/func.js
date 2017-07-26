@@ -12,6 +12,15 @@
         // if(event.target==this){
         //     $(ele).fadeOut();
         // }
+        // event.stopPropagation();
+    // 弹出浮层
+        // $("body").scrollTop(0).addClass("row")
+        // $(window).on('touchmove', function (e) {
+        //     e.preventDefault();
+        // });
+    // 关闭浮层
+        // $("body").removeClass("row")
+        // $(window).unbind('touchmove');
     // 判断设备
         function getVersions(){
             var u = navigator.userAgent; 
@@ -188,6 +197,13 @@
             var data_set = JSON.stringify(data);
             localStorage.setItem(str,data_set);
         }
+    // 转化为数字格式
+        function F(d){
+            return parseFloat(d);
+        }
+        function I(d){
+            return parseFloat(d);
+        }
     // cookie操作
         function setCookie(c_name,value,expiredays){
             var exdate=new Date();
@@ -231,6 +247,45 @@
             var min = min || 0;
             return Math.floor(Math.random() * (max - min)) % (max - min) + min;
         }
+    // 随机函数:[2,32],n位随机不重复
+        function getArr(n){
+            if(typeof n == "number"){
+                var data = [],res_data = [];
+                for (var i = 2; i <= 32; i++) {
+                    data.push(i);
+                }
+                var len = data.length;
+                for (var i = 0; i < n; i++) {
+                    var no_data = getRand(len);
+                    res_data.push(data[no_data])
+                }
+                return checkRepeat(res_data,len);
+            }else{
+                alert("参数格式错误")
+                return [];
+            }
+        }
+        function getRand(len){
+            return Math.floor(Math.random()*len);
+        }
+        function checkRepeat(d,len){
+            var obj = {},res_arr = [];
+            for (var i = 0; i < d.length;obj[d[i]] = true,i++) {
+                if (obj[d[i]]) {
+                    obj[d[i]] = false;
+                    res_arr.push(i)
+                }
+            }
+            if(!res_arr.length){
+                return d;
+            }else{
+                for (var i = 0; i < res_arr.length; i++) {
+                    d[res_arr[i]] = getRand(len)
+                }
+                return checkRepeat(d,len);
+            }
+        }
+        // console.log(getArr(4))
     // 产生唯一ID的函数
         function S4() {
             return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -371,7 +426,7 @@
             var seconds = Math.floor((endTime - startTime - days*day - hours*hour - minutes*minute)/1000);
             return  {d:days,h:hours,m:minutes,s:seconds};
         }
-    // 日起格式化
+    // 日期格式化
         function f_t(t){
             t = new Date(parseInt(t) * 1000);
             return t.getFullYear() + "-" + (t.getMonth()+1) + "-" + t.getDate() + " " + f(t.getHours()) + ":" + f(t.getMinutes()) + ":" + f(t.getSeconds())
@@ -454,25 +509,20 @@
         }  
     // 加载图片:在页面图片很多，且网速很慢的情况下给予用户一个百分比提示。
         function PreLoadImg(sources, callback, perEl) {
-            var count = 0,
-                images = {},
-                imgNum = 0;
-            for (src in sources) {
-                imgNum++;
-            }
+            var count = 0,images = {},imgNum = sources.length;
             for (src in sources) {
                 images[src] = new Image();
                 images[src].onload = function () {
-                    if (perEl) {
-                        $(perEl).html(~~((count + 1) * 100 / sources.length) + '%');
-                    }
                     if (++count >= imgNum) {
                         setTimeout(function () {
                             callback(images);
                         }, 500);
                     }
+                    if (perEl) {
+                        $(perEl).html(~~((count + 1) * 100 / sources.length) + '%');
+                    }
                 }
-                images[src].src = "/" + sources[src];
+                images[src].src = sources[src];
             }
         }
 // 多媒体
@@ -677,29 +727,55 @@
             $(".text_left").text(200-counter);
         })
 // 购物车相关计算
-    // 改变数量函数
-        function change_cart(i,n,data){
-            var num = data.data[i].num;
-            num += i;
-            num = num<1?1:num;
-            data.data[i].num = num;
-            return data;
-        }
-    // 计算总数和总价
-        function cal(data){
-            var num = 0;
-            var total = 0.00;
-            for (var i = 0; i < data.data.length; i++) {
-                if(data.data[i].selected){
-                    var number = data.data[i].num;
-                    var price = data.data[i].price;
-                    num = num+number;
-                    total = total + price*number;
-                }
+    // 购物车数目初始化
+        function cart_init(){
+            var mycarts = get_data("cart")||{};
+            var len = mycarts.total;
+            if(len){
+                $(".cart_num").html(len);
+            }else{
+                $(".cart_num").hide();
             }
-            data.num = num;
-            data.total = total.toFixed(2);
-            return data;
+        }
+    // 加入购物车
+        function addcart(t,data){
+            var mycarts = get_data("cart")||{total:0,totalprice:0,totalweight:0};
+            if(mycarts[data.id]){
+                mycarts[data.id].num +=t;
+            }else{
+                mycarts[data.id] = {id:data.id,img:data.img,o_price:data.o_price,price:data.price,title:data.title,num:t,weight:data.weight,selected:1};
+            }
+            mycarts.total +=t;
+            mycarts.totalprice += data.price*t;
+            mycarts.totalweight += data.weight*t;
+            set_data(mycarts,"cart");
+            $(".cart_num").show().addClass("pulse").html(mycarts.total);
+            setTimeout(function(){
+                $(".cart_num").removeClass("pulse")
+            },3000)
+        }
+// 轮播相关
+    function swipe_init(i){
+        $('.swipe').Swipe({
+            auto: 0,
+            startSlide: i,
+            callback: function(pos) {
+                $('.position li').removeClass('on').eq(pos).addClass('on');
+            }
+        }).data('Swipe');
+    }
+// 浮层相关
+    // 打开浮层
+        function open_popup(){
+            $("body").scrollTop(0).addClass("row")
+            $(window).on('touchmove', function (e) {
+                e.preventDefault();
+            });
+        }
+    // 关闭浮层
+        function close_popup(){
+            $("body").removeClass("row")
+            $(window).unbind('touchmove');
         }
 // 正则匹配
     // 手机号 ^(0|86|17951)?(13\d|15[0-35-9]|17[678]|18\d|14[57])\d{8}$
@@ -710,7 +786,7 @@
     // 邮箱 ^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+或^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$或^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$
     // 英文字母    ^[a-zA-Z]+$
     // 非负小数或整数 ^\d*\.?\d*$
-    // 首尾为特定字符     ^a.*g$
+    // 首尾为特定字符     ^a.*g$  /abc="[^"]*/
     // 特殊字符    ^[\u4e00-\u9fa5_a-zA-Z0-9]+$
     // 1~365之间的数字 \b[1-9]\b|\b[1-9]\d\b|\b[1-2]\d\d\b|\b[1-3][0-5]\d\b|\b360\b|\b361\b|\b362\b|\b363 \b|\b364\b|\b365\b
     // 百分比    ^-?\d+%$
@@ -746,7 +822,11 @@
         function loaddata(ele,func,data){
             $(ele).html(func(data));
         }
-// 上拉刷新
+    // 载入模版
+        function loadtemplate(ele,template_url,callback){
+            $(ele).load(template_url,callback);
+        }
+// 上拉刷新/下拉加载更多
     (function(window) {
         'use strict';
         var mobileRefresh = function (params,callback) {
@@ -763,7 +843,8 @@
             params: {
                 container: '',
                 triggerDistance: 100,
-                callback:false
+                callback:false,
+                type:"down"
             },
             _init : function(callback) {
                 var self = this,ele = this.params.container;
@@ -795,21 +876,39 @@
                     var touchobj = ev.changedTouches[0],
                         touchY = parseInt(touchobj.clientY);
                         touchYDelta = touchY - firstTouchY;
-                        translateVal = Math.pow(touchYDelta, 0.85);
                     if ( self.scrollY() === 0 && touchYDelta > 0  ) {
                         ev.preventDefault();
                     }
-                    if ( initialScroll > 0 || self.scrollY() >= 0 && touchYDelta < 0 ) {
-                        firstTouchY = touchY;
-                        return;
+                    if(self.params.type =="up"){
+                        if ( initialScroll < 0 || self.scrollY() >= 0 && touchYDelta > 0) {
+                            firstTouchY = touchY;
+                            return;
+                        }
+                        $(".refresh_load").show()
+                        translateVal = Math.pow(-touchYDelta, 0.85);
+                        $(ele).css({"transform":'translate3d(0, -' + translateVal + 'px, 0)',"transition-duration":"0ms"})
+                        isMoved = true;
+                        if(touchYDelta < self.params.triggerDistance){
+                            $(ele).addClass("refresh_pull_up").removeClass("refresh_pull_down");
+                        }else{
+                            $(ele).addClass("refresh_pull_down").removeClass("refresh_pull_up");
+                        }
                     }
-                    $(ele).css({"transform":'translate3d(0, ' + translateVal + 'px, 0)',"transition-duration":"0ms"})
-                    isMoved = true;
-                    if(touchYDelta > self.params.triggerDistance){
-                        $(ele).addClass("refresh_pull_up").removeClass("refresh_pull_down");
-                    }else{
-                        $(ele).addClass("refresh_pull_down").removeClass("refresh_pull_up");
+                    if(self.params.type =="down"){console.log(touchYDelta < 0)
+                        if ( initialScroll > 0 || self.scrollY() >= 0 && touchYDelta < 0) {
+                            firstTouchY = touchY;
+                            return;
+                        }
+                        translateVal = Math.pow(touchYDelta, 0.85);
+                        $(ele).css({"transform":'translate3d(0, ' + translateVal + 'px, 0)',"transition-duration":"0ms"})
+                        isMoved = true;
+                        if(touchYDelta > self.params.triggerDistance){
+                            $(ele).addClass("refresh_pull_up").removeClass("refresh_pull_down");
+                        }else{
+                            $(ele).addClass("refresh_pull_down").removeClass("refresh_pull_up");
+                        }
                     }
+                        
                 };
                 this.throttle(moving(), 20);
             },
@@ -819,7 +918,14 @@
                     isMoved = false;
                     return;
                 }
-                if( touchYDelta >= this.params.triggerDistance) {
+                if( touchYDelta <= this.params.triggerDistance && this.params.type =="up") {
+                    isLoading = true;
+                    ev.preventDefault();
+                    $(ele).css({"transform":'translate3d(0,-60px,0)',"transition-duration":"300ms"}).addClass("refreshing");
+                    $(".refresh_load").fadeOut(2000)
+                    callback();
+                }
+                if( touchYDelta >= this.params.triggerDistance && this.params.type =="down") {
                     isLoading = true;
                     ev.preventDefault();
                     $(ele).css({"transform":'translate3d(0,60px,0)',"transition-duration":"300ms"}).addClass("refreshing");

@@ -1,0 +1,78 @@
+<header class="header fixed_top bg_info">
+    <div class="header_icon arrow_left" onclick="location.href='index.html'"></div>
+    <div class="header_content font_16">popover</div>
+    <div class="header_icon popup_open" data-p="popup_top_right">
+        <span class="icon icon_plus"></span>
+    </div>
+</header>
+<div class="padding_15 margin_top">
+    <div class="btn btn_info popup_open" data-p="popup_top_left">左上角</div>
+    <div class="btn btn_info popup_open" data-p="popup_top">顶部中间</div>
+    <div class="btn btn_info popup_open" data-p="popup_top_right">右上角</div>
+    <div class="btn btn_info popup_open" data-p="popup_bottom_left">左下角</div>
+    <div class="btn btn_info popup_open" data-p="popup_bottom">底部中间</div>
+    <div class="btn btn_info popup_open" data-p="popup_bottom_right">右下角</div>
+</div>
+<div class="padding_15">
+    <div class="btn_block btn_info margin_b_10 actionsheet_open">点击上拉ActionSheet</div>
+</div>
+<div class="padding_15">
+    <div class="btn_block btn_info dialog_open margin_b_10" data-type="text" data-val="确定删除吗？">基本dialog</div>
+    <div class="btn_block btn_info dialog_open" data-type="input" data-val="value">带有输入框的dialog</div>
+</div>
+<div class="padding_15">
+    <div class="btn_block btn_info margin_b_10 toast_open" data-icon="laud">默认样式（toast）</div>
+    <div class="btn_block btn_info toast_open" data-icon="close">失败（toast）</div>
+</div>
+<div class="popup">
+    <div class="popup_arrow"></div>
+    <div class="popup_content list">
+        <div class="list_item flex">
+            <div class="padding_r_10">
+                <i class="icon icon_my warning"></i>
+            </div>
+            <div class="">会员中心</div>
+        </div>
+        <div class="list_item flex">
+            <div class="padding_r_10">
+                <i class="icon icon_mail info"></i>
+            </div>
+            <div class="">会话消息</div>
+        </div>
+        <div class="list_item flex">
+            <div class="padding_r_10">
+                <i class="icon icon_star danger"></i>
+            </div>
+            <div class="">我的收藏</div>
+        </div>
+    </div>
+</div>
+<div class="actionsheet lineheight_4 font_16">
+    <div class="actionsheet_menu fixed all_width text_center" style="bottom:0;background: #EFEFF4;z-index:9">
+        <div class="margin_b_10 bg_white">
+            <div class="border_b">示例菜单</div>
+            <div class="border_b">示例菜单</div>
+            <div class="border_b">示例菜单</div>
+            <div class="">示例菜单</div>
+        </div>
+        <div class="bg_white">
+            <div class="actionsheet_cancel">取消</div>
+        </div>
+    </div>
+</div>
+<div class="dialog">
+    <div class="dialog_body">
+        <div class="dialog_header">弹出提示</div>
+        <div class="dialog_content">内容</div>
+        <input type="text">
+    </div>
+    <div class="dialog_footer">
+        <div class="dialog_btn">取消</div>
+        <div class="dialog_btn">确定</div>
+    </div>
+</div>
+<div class="toast">
+    <i class="icon"></i>
+    <div class="toast_info"></div>
+</div>
+<div class="mask all"></div>

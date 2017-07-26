@@ -1,0 +1,195 @@
+/*public style*/
+    body{
+        background: #f5f5f5;
+    }
+    .margin_top_bottom{
+        margin-top:60px;
+        margin-bottom:70px;
+    }
+    .margin_top{
+        margin-top:50px;
+    }
+    .margin_bottom{
+        margin-bottom:50px;
+    }
+/*颜色*/
+    /*白色,黑色*/
+        .white{
+            color: #f1f1f1;
+        }
+        .border_white,.tab_btn.inverse,.tab_btn.inverse .tab_btn_item{
+            border-color:#fff;
+        }
+        .bg_white {
+            background-color: #fff;
+        }
+        .light{
+            color: #8e8e8e;
+        }
+        .grey{
+            color: #e0e0e0;
+        }
+        .bg_grey,.btn_grey{
+            background-color: #e0e0e0;
+        }
+        .btn_grey{
+            color: #3e3e3e;
+            border-color:#e0e0e0;
+        }
+        .bg_dark{
+            background: rgba(0,0,0,.5);
+        }
+    /*深蓝色*/
+        .info,.label_info {
+            color: #0099ff;
+        }
+        .border_info,.label_info,.btn_info,.bg_white .arrow_left:before {
+            border-color:#0099ff;
+        }
+        .bg_info,.btn_info {
+            color: #f1f1f1;
+            background-color: #0099ff;
+        }
+        .bg_white_info{
+            color: #0099ff;
+            background-color: #fff;
+        }
+    /*绿色*/
+        .green,.label_green{
+            color: #01BF02;
+        }
+        .border_green,.label_green,.btn_green{
+            border-color:#01BF02;
+        }
+        .bg_green,.btn_green{
+            color: #f1f1f1;
+            background-color: #01BF02;
+        }
+        .bg_white_green{
+            color: #01BF02;
+            background-color: #fff;
+        }
+    /*orange*/
+        .orange,.label_orange{
+            color: #ff7f0d;
+        }
+        .label_orange{
+            border-color: #ff7f0d;
+        }
+/*图标*/
+    @font-face {
+        font-family: "aui_iconfont";
+        src: url('../fonts/eui.ttf') format('truetype');
+    }
+    .icon {
+        font-family:"aui_iconfont" !important;
+        font-style:normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .icon_menu:before { content: "\e6eb"; }
+    .icon_paper:before { content: "\e6ec"; }
+    .icon_info:before { content: "\e6ed"; }
+    .icon_question:before { content: "\e6ee"; }
+    .icon_left:before { content: "\e6f4"; }
+    .icon_right:before { content: "\e6f5"; }
+    .icon_top:before { content: "\e6f6"; }
+    .icon_down:before { content: "\e6f7"; }
+    .icon_share:before { content: "\e700"; }
+    .icon_comment:before { content: "\e701"; }
+    .icon_edit:before { content: "\e6d3"; }
+    .icon_trash:before { content: "\e6d4"; }
+    .icon_recovery:before { content: "\e6dc"; }
+    .icon_refresh:before { content: "\e6dd"; }
+    .icon_close:before { content: "\e6d8"; }
+    .icon_cart:before { content: "\e6df"; }
+    .icon_star:before { content: "\e6e0"; }
+    .icon_plus:before { content: "\e6e3"; }
+    .icon_minus:before { content: "\e62d"; }
+    .icon_correct:before { content: "\e6e5"; }
+    .icon_search:before { content: "\e6e6"; }
+    .icon_gear:before { content: "\e6e8"; }
+    .icon_map:before { content: "\e6d2"; }
+    .icon_location:before { content: "\e6d1"; }
+    .icon_image:before { content: "\e6ce"; }
+    .icon_phone:before { content: "\e6c4"; }
+    .icon_camera:before { content: "\e6cd"; }
+    .icon_video:before { content: "\e6cc"; }
+    .icon_qq:before { content: "\e6cb"; }
+    .icon_wechat:before { content: "\e6c9"; }
+    .icon_weibo:before { content: "\e6c8"; }
+    .icon_note:before { content: "\e6c6"; }
+    .icon_mail:before { content: "\e6c5"; }
+    .icon_wechat_circle:before { content: "\e6ca"; }
+    .icon_home:before { content: "\e706"; }
+    .icon_forward:before { content: "\e6d9"; }
+    .icon_back:before { content: "\e6da"; }
+    .icon_laud:before { content: "\e64b"; }
+    .icon_lock:before { content: "\e6ef"; }
+    .icon_unlock:before { content: "\e62f"; }
+    .icon_like:before { content: "\e62b"; }
+    .icon_my:before { content: "\e610"; }
+    .icon_more:before { content: "\e625"; }
+    .icon_mobile:before { content: "\e697"; }
+    .icon_calendar:before { content: "\e68a"; }
+    .icon_date:before { content: "\e68c"; }
+    .icon_display:before { content: "\e612"; }
+    .icon_hide:before { content: "\e624"; }
+    .icon_pencil:before { content: "\e615"; }
+    .icon_flag:before { content: "\e6f1"; }
+    .icon_cert:before { content: "\e704"; }
+/*适应屏*/
+    @media (min-width: 320px){
+        
+    }
+    @media (min-width: 360px){
+        
+    }
+    @media (min-width: 384px){
+        
+    }
+    @media (min-width: 414px){
+        
+    }
+    /*ipone4*/
+    @media (min-height: 416px){
+        
+    }
+    /*ipone5*/
+    @media (min-height: 504px){
+        
+    }
+    /*ipone6*/
+    @media (min-height: 603px){
+        
+    }
+    /*ipone6 plus*/
+    @media (min-height: 672px){
+        
+    }
+/*表情*/
+    .emoticon{
+        height: 150px;
+    }
+    .txtContent{
+        line-height: 20px;
+        overflow: auto;
+    }
+    img.emo_b{
+        width: 24px;
+        height: 24px;
+    }
+    .emo{
+        width: 20px !important;
+        height: 20px;
+    }
+/*cart*/
+    .row_one .addcart{
+        position: absolute;
+        right: 0;
+        bottom: 21px;
+        padding:0 10px;
+    }
+    .row_one:nth-child(2n-1) .addcart{
+        right: 15px;
+    }
